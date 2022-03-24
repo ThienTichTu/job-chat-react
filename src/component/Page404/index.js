@@ -1,36 +1,20 @@
-import React from 'react'
-import "./page404.scss"
+import React, { useEffect } from 'react'
+import { useNavigate } from "react-router-dom"
+import { message } from "antd"
+const key = 'updatable';
 export default function Page404() {
+    const navigate = useNavigate()
+    useEffect(() => {
+        message.loading({ content: 'Loading...', key });
+        setTimeout(() => {
+            navigate("/")
+            message.error({ content: 'Trang không tồn tại!', key, duration: 2 });
+
+        }, 1000);
+    }, [])
     return (
         <div className="container">
-            <h1 className="first-four">4</h1>
-            <div className="cog-wheel1">
-                <div className="cog1">
-                    <div className="top"></div>
-                    <div className="down"></div>
-                    <div className="left-top"></div>
-                    <div className="left-down"></div>
-                    <div className="right-top"></div>
-                    <div className="right-down"></div>
-                    <div className="left"></div>
-                    <div className="right"></div>
-                </div>
-            </div>
 
-            <div className="cog-wheel2">
-                <div className="cog2">
-                    <div className="top"></div>
-                    <div className="down"></div>
-                    <div className="left-top"></div>
-                    <div className="left-down"></div>
-                    <div className="right-top"></div>
-                    <div className="right-down"></div>
-                    <div className="left"></div>
-                    <div className="right"></div>
-                </div>
-            </div>
-            <h1 className="second-four">4</h1>
-            <p className="wrong-para">Uh Oh! Page not found!</p>
         </div>
     )
 }

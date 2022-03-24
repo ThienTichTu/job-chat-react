@@ -1,0 +1,10 @@
+@use '../../scss/' as *;
+
+.chat {
+    width: 100vw;
+    height: calc(100% - 76px);
+    @include flex(start, start);
+    &__sidebar {
+        height: 100%;
+    }
+}

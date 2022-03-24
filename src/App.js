@@ -3,8 +3,13 @@ import 'antd/dist/antd.css';
 import Login from "./component/Login"
 import Page404 from './component/Page404';
 import Main from "./component/Main"
-import Signin from "./component/Signin"
+import Register from "./component/Register"
 import AppProvider from "./context"
+import Chat from "./component/Chat"
+import Project from "./component/Project"
+import Myjob from "./component/Myjob"
+import ModalWarper from "./Modal"
+import Friends from "./component/Friends/Friends"
 import {
   BrowserRouter,
   Routes,
@@ -15,14 +20,19 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <AppProvider>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/sign-in" element={<Signin />} />
-            <Route path="/" element={<Main />} />
+          <Main>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/myjob" element={<Myjob />} />
+              <Route path="/friends" element={<Friends />} />
+              <Route path="/" element={<Project />} />
+              <Route path="*" element={<Page404 />} />
 
-            <Route path="*" element={<Page404 />} />
-
-          </Routes>
+            </Routes>
+            <ModalWarper />
+          </Main>
         </AppProvider>
 
       </BrowserRouter>

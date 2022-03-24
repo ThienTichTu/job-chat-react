@@ -2,20 +2,40 @@ import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase/config"
 import { signInWithEmailAndPassword } from "firebase/auth";
+import isEmail from 'validator/lib/isEmail';
+import { message } from 'antd';
+const key = 'updatable';
 
 export default function LoginFormCustom() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
+    const validate = () => {
+        if (isEmail(email) && password.length > 6) return true
+
+        return false
+
+    }
+
     const handleCustomLogin = () => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                console.log(userCredential)
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-            });
+        if (validate()) {
+            message.loading({ content: 'Vui lòng đợi trong giây lát....', key });
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    console.log(userCredential)
+                    message.success({ content: 'Đăng nhập thành công', key });
+
+                })
+                .catch((error) => {
+                    message.error("Email không tồn tại !")
+                });
+
+        } else {
+            if (password.length < 6) {
+                message.error("Mật khẩu phải lớn hơn 6 kí tự !!")
+            }
+
+        }
     }
 
     return (
@@ -50,7 +70,7 @@ export default function LoginFormCustom() {
                 </button>
 
 
-                <Link to="/sign-in">
+                <Link to="/register">
                     <button className="btn-green">
                         Đăng kí
                     </button>

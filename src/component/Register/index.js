@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import "./signin.scss"
 import { Link } from "react-router-dom";
-import { addDocument, generateKeywords } from "../../firebase/services"
+import { createUser } from "../../firebase/services"
 import { message } from 'antd';
 import isEmail from 'validator/lib/isEmail';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/config"
 import { useNavigate } from "react-router-dom"
 const key = 'updatable';
-export default function Signin() {
+export default function Register() {
     const navigate = useNavigate()
     const [displayName, setDisplayName] = useState("")
     const [errEmail, setErrEmail] = useState("")
@@ -43,14 +43,14 @@ export default function Signin() {
                 .then((userCredential) => {
                     const { operationType, user } = userCredential
                     if (operationType === "signIn") {
-                        addDocument("users", {
+                        const data = {
                             displayName: displayName,
                             email: user.email,
                             photoURL: user.photoURL,
                             uid: user.uid,
                             ProviderId: "EmailAndPassword",
-                            keywords: generateKeywords(displayName)
-                        })
+                        }
+                        createUser(data)
                         message.success({ content: 'Đăng kí thành công :>', key, duration: 2 });
                         navigate("/login")
                     } else {

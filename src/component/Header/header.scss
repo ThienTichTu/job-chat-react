@@ -1,0 +1,64 @@
+@use '../../scss/' as *;
+.main__header {
+    width: 100%;
+    height: 76px;
+    background-color: #fff;
+    border-bottom: 1px solid $border-color;
+    @include flex(start, center);
+    &-nav {
+        @include flex(start, center);
+        width: 700px;
+    }
+    &-avatar {
+        margin-left: auto;
+        cursor: pointer;
+        @include flex(start, center);
+        margin-right: 20px;
+        span {
+            font-size: 20px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    }
+    &-item {
+        font-size: 22px;
+        cursor: pointer;
+        &:hover {
+            color: $main-color;
+        }
+    }
+}
+
+.dropdow__item {
+    width: 240px;
+    height: 40px;
+    @include flex(start, center);
+    font-size: 18px;
+    &-infor {
+        text-align: center;
+        font-weight: bold;
+        font-size: 18px;
+        padding: 20px 0px;
+    }
+}
+.notification {
+    flex-grow: 1;
+    text-align: end;
+    padding-right: 20px;
+}
+.font-item {
+    font-size: 18px;
+}
+.mr-10 {
+    margin-left: 10px;
+}
+.main__header-item + .main__header-item {
+    margin-left: 30px;
+}
+.active {
+    color: $main-color !important;
+}
+.main__header a {
+    color: #000;
+    margin-left: 30px;
+}

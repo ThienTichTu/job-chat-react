@@ -1,6 +1,6 @@
 import React from 'react'
 import firebase, { auth } from "../../firebase/config"
-import { addDocument, generateKeywords } from "../../firebase/services"
+import { addDocument, createUser } from "../../firebase/services"
 import { useNavigate } from "react-router-dom"
 const GoogleProvider = new firebase.auth.GoogleAuthProvider();
 const FaceBookProvider = new firebase.auth.FacebookAuthProvider()
@@ -11,14 +11,14 @@ export default function LoginFormService() {
     const handleLoginFace = async () => {
         const { additionalUserInfo, user } = await auth.signInWithPopup(FaceBookProvider)
         if (additionalUserInfo?.isNewUser) {
-            addDocument("users", {
+            const data = {
                 displayName: user.displayName,
                 email: user.email,
                 photoURL: user.photoURL,
                 uid: user.uid,
                 ProviderId: additionalUserInfo.providerId,
-                keywords: generateKeywords(user.displayName)
-            })
+            }
+            createUser(data)
         }
         if (user) {
             navigate("/")
@@ -28,14 +28,14 @@ export default function LoginFormService() {
     const handleLoginGoogle = async () => {
         const { additionalUserInfo, user } = await auth.signInWithPopup(GoogleProvider)
         if (additionalUserInfo?.isNewUser) {
-            addDocument("users", {
+            const data = {
                 displayName: user.displayName,
                 email: user.email,
                 photoURL: user.photoURL,
                 uid: user.uid,
                 ProviderId: additionalUserInfo.providerId,
-                keywords: generateKeywords(user.displayName)
-            })
+            }
+            createUser(data)
         }
         if (user) {
             navigate("/")

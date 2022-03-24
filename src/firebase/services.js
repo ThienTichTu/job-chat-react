@@ -65,12 +65,56 @@ export const generateKeywords = (displayName) => {
     return keywords;
 };
 
-export const updateUser = async (id, data) => {
-    const query = db.collection('users')
+export const updateDocument = (collection, id, data) => {
+    const query = db.collection(collection)
     query.doc(id).update(data)
 }
+export const createUser = (data) => {
+    addDocument("users", {
+        ...data,
+        keywords: generateKeywords(data.displayName),
+        address: "",
+        linkFace: "",
+        linkTwitter: "",
+        linkInstagram: "",
+        friends: [],
+        phone: "",
+        notification: [],
+        FriendInvite: [],
+    })
 
-export const updateRoom = async (id, data) => {
-    const query = db.collection('rooms')
-    query.doc(id).update(data)
+}
+export const FindUserWithEmail = async (email) => {
+    const query = db.collection('users')
+    const snapshot = await query.where('email', "==", email).get()
+    const user = snapshot.docs.map(doc => ({
+        id: doc.id,
+        displayName: doc.data().displayName,
+        photoURL: doc.data().photoURL,
+        uid: doc.data().uid
+    }))
+    return user
+
+}
+export const FindUserWithName = async (name) => {
+    const query = db.collection('users')
+    const snapshot = await query.where('keywords', 'array-contains', name).get()
+    const user = snapshot.docs.map(doc => ({
+        id: doc.id,
+        displayName: doc.data().displayName,
+        photoURL: doc.data().photoURL,
+        uid: doc.data().uid
+    }))
+    return user
+
+}
+
+export const FindUserWithId = async (id) => {
+    const query = db.collection('users')
+    const user = await query.doc(id).get()
+    return user.data()
+}
+
+export const SendNotification = (id, data) => {
+
 }
