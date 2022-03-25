@@ -1,16 +1,16 @@
 import { useContext } from 'react'
 import { Avatar } from 'antd'
-export default function FriendItem() {
-
-
-
+export default function FriendItem({ data }) {
+    const { photoURL, displayName } = data
 
     return (
         <>
-            <Avatar src="https://i.pravatar.cc/150?img=3" size="40" >T</Avatar>
+            <Avatar src={photoURL} size="40" >
+                {photoURL ? '' : displayName?.charAt(0)?.toUpperCase()}
+            </Avatar>
 
             <span className="friend-item-name">
-                Thiện Tích Từ
+                {displayName}
             </span>
         </>
 

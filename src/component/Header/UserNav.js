@@ -41,7 +41,7 @@ export default function UserNav() {
     );
     return (
         <div style={{ marginLeft: "auto" }} >
-            <Dropdown overlay={menu}>
+            <Dropdown overlay={menu} placement="bottomRight" arrow={{ pointAtCenter: true }}>
                 <div className="main__header-avatar">
                     <Avatar src={photoURL} size={40} >
                         {photoURL ? '' : displayName?.charAt(0)?.toUpperCase()}
@@ -50,6 +50,6 @@ export default function UserNav() {
                 </div>
             </Dropdown>
 
-        </div>
+        </div >
     )
 }

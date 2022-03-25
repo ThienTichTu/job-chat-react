@@ -1,7 +1,7 @@
 import React from 'react'
 import "./header.scss"
 import UserNav from "./UserNav"
-
+import UserAddNotification from "./UserAddNotification"
 import { NavLink } from "react-router-dom";
 import { auth } from "../../firebase/config"
 import {
@@ -9,7 +9,8 @@ import {
     ProjectOutlined,
     WechatOutlined,
     UnorderedListOutlined,
-    NotificationOutlined
+    BellOutlined,
+    UserAddOutlined
 
 } from "@ant-design/icons"
 import { AuthContext } from "../../context/AuthProvider"
@@ -85,12 +86,22 @@ function Header() {
                 </NavLink>
             </div>
 
-            <div className="main__header-item notification"
-                style={{ marginLeft: "auto " }}
+
+            <div
+                style={{ width: "200px", marginLeft: "auto", display: "flex", justifyContent: "center" }}
             >
-                <NotificationOutlined />
+                <div className="main__header-item"
+                >
+                    <UserAddNotification />
+                </div>
+                <div className="main__header-item"
+                    style={{ marginLeft: "auto " }}
+                >
+                    <BellOutlined />
+                </div>
+
+                <UserNav />
             </div>
-            <UserNav />
 
         </div>
     )

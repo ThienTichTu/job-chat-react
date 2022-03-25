@@ -27,7 +27,11 @@ export default function FriendWindowSearchEmail() {
     return (
 
         <>
-            <span>Kết bạn :</span>
+            <span
+                style={{ height: "30px" }}
+            >
+
+                Kết bạn :</span>
             <input
                 type="text"
                 placeholder="Nhập email...."

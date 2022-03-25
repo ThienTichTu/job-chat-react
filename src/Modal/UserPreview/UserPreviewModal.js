@@ -6,9 +6,12 @@ import { FindUserWithId } from "../../firebase/services"
 import { FacebookOutlined, TwitterOutlined, InstagramOutlined } from "@ant-design/icons"
 import { MemberContext } from "../../context/MemberProvider"
 import { AuthContext } from "../../context/AuthProvider"
+import _ from "lodash"
 import "./UserPreviewModal.scss"
+
 function UserPreviewModal() {
 
+    const { friendsList } = useContext(MemberContext)
     const [user, setUser] = useState({})
 
     const [checkUser, setCheckUser] = useState("")
@@ -19,7 +22,7 @@ function UserPreviewModal() {
         idUserPreview,
         setIdUserPreview } = useContext(VisibleContext)
 
-    const { userCurrent: { friends } } = useContext(AuthContext)
+    const { userCurrent: { friends, FriendInvite, uid } } = useContext(AuthContext)
 
 
 
@@ -27,18 +30,45 @@ function UserPreviewModal() {
         if (idUserPreview) {
             const data = await FindUserWithId(idUserPreview)
             setUser(data)
+
         }
     }
 
     useEffect(() => {
         getUser()
-
         return () => {
-            setIdUserPreview("")
+
             setUser({})
             setCheckUser("")
         }
     }, [isPreviewUserVisible])
+
+    useEffect(() => {
+        let friends = _.find(friendsList, (item) => item.uid === user.uid) // render Bạn bè
+
+        let Invite = _.find(FriendInvite, (item) => item === user.uid) // => render Đồng ý
+
+        let InviteOfUser = _.find(user.FriendInvite, (item) => item === uid) // => render da gui loi moi
+
+        if (friends) {
+            setCheckUser("Ban be")
+        } else {
+            if (Invite) {
+                setCheckUser("Dong y")
+            } else {
+                if (InviteOfUser) {
+                    setCheckUser("Da gui loi moi")
+                } else {
+                    setCheckUser("Kết bạn")
+
+                }
+            }
+        }
+
+        return () => [
+            setCheckUser('')
+        ]
+    }, [user])
 
 
     const handleOk = () => {
@@ -47,7 +77,8 @@ function UserPreviewModal() {
 
     const handleCancel = () => {
         setIsPreviewUserVisible(false)
-
+        setIdUserPreview("")
+        setCheckUser("")
     }
 
     return (
@@ -74,6 +105,9 @@ function UserPreviewModal() {
                     <ButtonStateUser
                         checkUser={checkUser}
                         setCheckUser={setCheckUser}
+                        idUser={idUserPreview}
+                        listFriensInvite={user.FriendInvite}
+                        User={user}
                     />
                 </div>
                 <div className="userpreviews__infor">

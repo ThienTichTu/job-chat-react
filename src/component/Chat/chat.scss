@@ -6,5 +6,144 @@
     @include flex(start, start);
     &__sidebar {
         height: 100%;
+        width: 300px;
+        background-color: #f5f7fb;
+        padding: 5px;
+        &-item + &-item {
+            margin-top: 10px;
+        }
+        &-item {
+            width: 100%;
+            height: 50px;
+            @include flex(start, center);
+            font-size: 18px;
+            border-radius: 5px;
+            padding-left: 5px;
+            .avatar-chat {
+                transition: transform 1s ease-in-out;
+            }
+            &:hover {
+                background-color: $hover-color;
+                cursor: pointer;
+                .avatar-chat {
+                    transform: rotate(360deg);
+                }
+            }
+        }
+        &-friend,
+        &-group {
+            width: 100%;
+            @include flex-col(start, start);
+            min-height: 200px;
+            max-height: 400px;
+        }
+        &-header {
+            height: 50px;
+            width: 100%;
+            @include flex(start, center);
+        }
+        &-body {
+            width: 100%;
+            @include flex-col(start, start);
+            overflow-y: auto;
+        }
+        &:hover {
+            .chat__sidebar-body::-webkit-scrollbar {
+                display: block;
+            }
+        }
+    }
+    &__windown {
+        height: 100%;
+        transition: all 0.5s linear;
+        width: calc(100% - 300px);
+        box-shadow: 0 2px 4px rgb(15 34 58 / 12%);
+        @include flex-col(start, start);
+        &-header {
+            height: 70px;
+            width: 100%;
+            border-bottom: 1px solid rgb(204, 204, 204);
+            padding: 5px;
+            @include flex(start, center);
+            .chatwindow__header-infor {
+                font-size: 18px;
+                @include flex-col(start, start);
+            }
+            .chatwindow__header-member {
+                margin-left: auto;
+                width: 220px;
+                @include flex(start, center);
+                margin-right: 20px;
+                .header-member-list {
+                    @include flex(start, center);
+                    margin-left: auto;
+                }
+                .header-member-setting {
+                    font-size: 24px;
+                    &:hover {
+                        color: $btn-color;
+                        cursor: pointer;
+                    }
+                }
+                .header-member-setting + .header-member-setting {
+                    margin-left: 30px;
+                }
+            }
+        }
+        &-body {
+            height: calc(100% - 140px);
+            width: 100%;
+            overflow: hidden;
+            .body__container {
+                width: 100%;
+                height: 100%;
+                overflow-y: auto;
+                @include flex-col(start, start);
+            }
+        }
+        &-footer {
+            height: 70px;
+            width: 100%;
+            border-top: 1px solid rgb(204, 204, 204);
+            padding: 5px;
+            @include flex(start, center);
+        }
+    }
+}
+.sidebar__group-header {
+    height: 50px;
+    width: 100%;
+    @include flex(start, center);
+    font-size: 26px;
+    padding-left: 10px;
+    border-radius: 5px;
+    .item {
+        transition: transform 0.7s ease-in-out;
+        margin-right: 10px;
+    }
+    &:hover {
+        .item {
+            color: $btn-color;
+            transform: rotate(360deg);
+        }
+        background-color: #fff;
+    }
+    cursor: pointer;
+}
+.chat__sidebar-body::-webkit-scrollbar {
+    width: 5px;
+    display: none;
+}
+.chat__sidebar-body::-webkit-scrollbar-thumb {
+    width: 5px;
+}
+
+.chat__sidebar-body::-webkit-scrollbar-track {
+    background-color: rgb(255, 255, 255);
+}
+.hover-rotate {
+    transition: transform 0.7s ease-in-out;
+    &:hover {
+        transform: rotate(360deg);
     }
 }

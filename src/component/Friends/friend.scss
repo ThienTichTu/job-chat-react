@@ -46,6 +46,7 @@
         width: calc(100% - 300px);
         height: 100%;
         overflow: hidden;
+        @include flex(start, start);
         &-search {
             width: 400px;
             min-height: 200px;
@@ -75,6 +76,12 @@
                 color: #fff;
                 cursor: pointer;
             }
+        }
+        &-invite {
+            height: 100%;
+            flex-grow: 1;
+            margin-left: 10px;
+            @include flex(start, start);
         }
     }
 }
@@ -127,6 +134,39 @@
     }
 }
 
+.list__friendAwait {
+    width: 50%;
+    height: 100%;
+}
+
+.list__friendInvite {
+    width: 50%;
+    height: 100%;
+}
+.list__header {
+    font-size: 18px;
+    font-weight: bold;
+    height: 50px;
+}
+.list__invite-body {
+    width: 290px;
+    min-height: 400px;
+    height: 100%;
+    overflow-y: auto;
+
+    &-item {
+        padding: 5px;
+        height: 50px;
+        @include flex(start, center);
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+        &:hover {
+            background-color: $hover-color;
+        }
+    }
+}
 .search-name-list-item + .search-name-list-item {
     margin-top: 10px;
 }
