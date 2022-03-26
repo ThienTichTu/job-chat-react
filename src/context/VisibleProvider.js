@@ -8,6 +8,8 @@ export default function VisibleProvider({ children }) {
     const [isPreviewUserVisible, setIsPreviewUserVisible] = useState(false)
     const [idUserPreview, setIdUserPreview] = useState("")
 
+
+
     return (
         <VisibleContext.Provider
             value={{

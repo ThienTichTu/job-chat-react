@@ -31,7 +31,7 @@ export default function RoomChatProvider({ children }) {
         () => {
             return _.find(rooms, ['id', roomId]) || { members: [] }
         },
-        [roomId]
+        [roomId, rooms]
     );
     const userCondition = useMemo(() => {
         return {
@@ -65,6 +65,8 @@ export default function RoomChatProvider({ children }) {
         })
         setRoomListFriend(roomsFriendDetail)
     }, [rooms])
+
+
 
     return (
         <RoomChatContext.Provider value={{

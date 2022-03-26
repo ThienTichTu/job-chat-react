@@ -115,6 +115,17 @@ export const FindUserWithId = async (id) => {
     return user.data()
 }
 
-export const SendNotification = (id, data) => {
+export const getTime = () => {
+    const date = new Date().getTime();
+    const options = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric"
+    };
 
+
+    return new Intl.DateTimeFormat("en-US", options).format(date); //"7/22/2018, 7:22:13 AM"
 }

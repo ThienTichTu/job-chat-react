@@ -104,6 +104,10 @@ export default function ProfileModal() {
         }
     }
 
+    const handleSetData = (data) => {
+        setData(data)
+    }
+
     return (
         <>
             <Modal
@@ -133,7 +137,7 @@ export default function ProfileModal() {
 
                 <FormProfile
                     data={data}
-                    setData={setData}
+                    handleSetData={handleSetData}
                 />
 
 
