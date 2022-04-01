@@ -10,7 +10,7 @@ import {
     WechatOutlined,
     UnorderedListOutlined,
     BellOutlined,
-    UserAddOutlined
+    UserAddOutlined,
 
 } from "@ant-design/icons"
 import { AuthContext } from "../../context/AuthProvider"
@@ -36,6 +36,7 @@ function Header() {
     return (
         <div className="main__header">
             <div className="main__header-nav">
+
                 <NavLink to="/friends"
                     className={({ isActive }) =>
                         isActive ? "active" : undefined

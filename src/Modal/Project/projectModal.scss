@@ -1,0 +1,50 @@
+@use '../../scss/' as *;
+.project__modal {
+    &-row {
+        height: 50px;
+        @include flex(start, center);
+        font-size: 18px;
+        span {
+            margin-right: 10px;
+            font-weight: bold;
+            width: 100px;
+        }
+        input {
+            flex-grow: 1;
+            border: 1px solid $border-color;
+            outline: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    }
+    &-select {
+        width: 100%;
+        margin-top: 15px;
+    }
+    &-button {
+        margin-top: 15px;
+        width: 100%;
+        text-align: end;
+    }
+    &-list {
+        width: 100%;
+        @include flex-col(start, start);
+        max-height: 400px;
+        overflow-y: auto;
+        margin-top: 15px;
+        .project-members-rules {
+            margin-left: 100px;
+            margin-top: 10px;
+            height: 50px;
+            @include flex(start, center);
+            padding: 5px;
+            width: calc(100% - 100px);
+            span {
+                font-size: 20px;
+            }
+        }
+    }
+}
+.project__modal-row + .project__modal-row {
+    margin-top: 15px;
+}

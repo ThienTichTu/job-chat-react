@@ -6,6 +6,10 @@ export default function VisibleProvider({ children }) {
 
     const [isProfileVisible, setIsProfileVisible] = useState(false)
     const [isPreviewUserVisible, setIsPreviewUserVisible] = useState(false)
+    const [isGroupChatModal, setIsGroupChatModal] = useState(false)
+    const [isGroupChatModalInvite, setIsGroupChatModalInvite] = useState(false)
+    const [isGroupChatUpdate, setIsGroupChatUpdate] = useState(false)
+    const [isProjectModal, setIsProjectModal] = useState(false)
     const [idUserPreview, setIdUserPreview] = useState("")
 
 
@@ -18,7 +22,15 @@ export default function VisibleProvider({ children }) {
                 isPreviewUserVisible,
                 setIsPreviewUserVisible,
                 idUserPreview,
-                setIdUserPreview
+                setIdUserPreview,
+                isGroupChatModal,
+                setIsGroupChatModal,
+                isGroupChatModalInvite,
+                setIsGroupChatModalInvite,
+                isGroupChatUpdate,
+                setIsGroupChatUpdate,
+                isProjectModal,
+                setIsProjectModal
             }}
         >
             {children}

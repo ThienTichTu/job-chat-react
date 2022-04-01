@@ -47,3 +47,19 @@
     border: none;
     outline: none;
 }
+@mixin hoverRotate() {
+    &:hover {
+        animation: rotate360 1s linear infinite;
+    }
+}
+@mixin hoverRotate2() {
+    animation: rotate360 5s linear infinite;
+}
+@keyframes rotate360 {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

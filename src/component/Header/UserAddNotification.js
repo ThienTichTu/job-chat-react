@@ -46,7 +46,7 @@ export default function UserAddNotification() {
         </Menu>
     );
     return (
-        <Dropdown overlay={menu} placement="bottomRight" arrow={{ pointAtCenter: true }}>
+        <Dropdown trigger="click" overlay={menu} placement="bottomRight" arrow={{ pointAtCenter: true }}>
             <div className="UserAddNotification">
                 <UserAddOutlined />
 

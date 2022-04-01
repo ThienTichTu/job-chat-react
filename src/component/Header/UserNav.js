@@ -12,6 +12,7 @@ export default function UserNav() {
 
     const menu = (
         <Menu>
+
             <Menu.Item key="0">
                 <div className="dropdow__item-infor">
                     <span>{displayName}</span>
@@ -41,7 +42,7 @@ export default function UserNav() {
     );
     return (
         <div style={{ marginLeft: "auto" }} >
-            <Dropdown overlay={menu} placement="bottomRight" arrow={{ pointAtCenter: true }}>
+            <Dropdown trigger="click" overlay={menu} placement="bottomRight" arrow={{ pointAtCenter: true }}>
                 <div className="main__header-avatar">
                     <Avatar src={photoURL} size={40} >
                         {photoURL ? '' : displayName?.charAt(0)?.toUpperCase()}

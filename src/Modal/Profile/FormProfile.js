@@ -2,6 +2,7 @@ import React from 'react'
 
 export default function FormProfile({ data, handleSetData }) {
 
+    const { displayName, email, phone, address, linkFace, linkInstagram, linkTwitter } = data
 
     return (
         <div className="profile__form">
@@ -12,7 +13,7 @@ export default function FormProfile({ data, handleSetData }) {
                     Tên</span>
                 <input
                     type="text"
-                    value={data.displayName}
+                    value={displayName}
                     onChange={(e) => {
                         const a = e.target.value
                         handleSetData({ ...data, displayName: a })
@@ -28,7 +29,7 @@ export default function FormProfile({ data, handleSetData }) {
                 </span>
                 <input
                     type="text"
-                    value={data.email}
+                    value={email}
                     onChange={(e) => handleSetData({ ...data, email: e.target.value })}
                 />
             </div>
@@ -40,7 +41,7 @@ export default function FormProfile({ data, handleSetData }) {
                 </span>
                 <input
                     type="text"
-                    value={data.phone}
+                    value={phone}
                     onChange={(e) => {
                         const a = e.target.value
                         handleSetData({ ...data, phone: a })
@@ -54,7 +55,7 @@ export default function FormProfile({ data, handleSetData }) {
                     Địa chỉ:
                 </span>
                 <input type="text"
-                    value={data.address}
+                    value={address}
                     onChange={(e) => {
                         const a = e.target.value
                         handleSetData({ ...data, address: a })
@@ -69,7 +70,7 @@ export default function FormProfile({ data, handleSetData }) {
                 </span>
                 <input
                     type="text"
-                    value={data.linkFace}
+                    value={linkFace}
                     onChange={(e) => {
                         const a = e.target.value
                         handleSetData({ ...data, linkFace: a })
@@ -84,7 +85,11 @@ export default function FormProfile({ data, handleSetData }) {
                 </span>
                 <input
                     type="text"
-
+                    value={linkTwitter}
+                    onChange={(e) => {
+                        const a = e.target.value
+                        handleSetData({ ...data, linkTwitter: a })
+                    }}
 
                 />
             </div>
@@ -96,7 +101,7 @@ export default function FormProfile({ data, handleSetData }) {
                 </span>
                 <input
                     type="text"
-                    value={data.linkInstagram}
+                    value={linkInstagram}
                     onChange={(e) => {
                         const a = e.target.value
                         handleSetData({ ...data, linkInstagram: a })

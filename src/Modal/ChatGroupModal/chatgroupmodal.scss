@@ -1,0 +1,32 @@
+@use '../../scss/' as *;
+.chat-groupModal-row {
+    @include flex(start, center);
+    height: 60px;
+    width: 100%;
+    margin-bottom: 10px;
+    span {
+        font-size: 20px;
+        font-weight: bold;
+        width: 120px;
+    }
+    input {
+        margin-left: 10px;
+        flex-grow: 1;
+        border: 1px solid rgb(204, 204, 204);
+        outline: none;
+        padding: 5px 15px 5px;
+        font-size: 20px;
+        border-radius: 5px;
+    }
+}
+.ant-select-multiple.ant-select-lg .ant-select-selection-item {
+    height: 45px !important;
+    align-items: center;
+    min-width: 100px;
+    justify-content: space-between;
+}
+.ant-avatar ~ span {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+}

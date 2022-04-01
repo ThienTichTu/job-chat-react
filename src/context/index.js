@@ -3,6 +3,7 @@ import AuthProvider from "./AuthProvider"
 import VisibleProvider from './VisibleProvider'
 import MemberProvider from "./MemberProvider"
 import RoomChatProvider from "./RoomChatProvider"
+import ProjectProvider from "./ProjectProvider"
 export default function AppProvider({ children }) {
 
     return (
@@ -10,7 +11,9 @@ export default function AppProvider({ children }) {
             <VisibleProvider>
                 <MemberProvider>
                     <RoomChatProvider>
-                        {children}
+                        <ProjectProvider>
+                            {children}
+                        </ProjectProvider>
                     </RoomChatProvider>
                 </MemberProvider>
             </VisibleProvider>

@@ -10,6 +10,7 @@ import Project from "./component/Project"
 import Myjob from "./component/Myjob"
 import ModalWarper from "./Modal"
 import Friends from "./component/Friends/Friends"
+import ProjectDarboard from "./component/Project/ProjectWindow/ProjectDarboard"
 import {
   BrowserRouter,
   Routes,
@@ -27,6 +28,7 @@ function App() {
               <Route path="/chat" element={<Chat />} />
               <Route path="/myjob" element={<Myjob />} />
               <Route path="/friends" element={<Friends />} />
+              <Route path="/projects/:id" element={<ProjectDarboard />} />
               <Route path="/" element={<Project />} />
               <Route path="*" element={<Page404 />} />
 

@@ -70,12 +70,14 @@ export default function Footer() {
 
     useEffect(() => {
         if (getUrlErr !== "") {
+            const text1 = text
             const storageRef = ref(storage, getUrlErr);
+
             getDownloadURL(storageRef).then((downloadURL) => {
                 const dataChat = {
                     type: 'img',
                     idSend: uid,
-                    content: text,
+                    content: text1,
                     img: downloadURL,
                     time: getTime()
                 }
@@ -89,7 +91,7 @@ export default function Footer() {
                     setImg(null)
 
                 }
-
+                setText("")
             });
         }
         return () => {
@@ -101,13 +103,13 @@ export default function Footer() {
 
 
     function handleOnEnter() {
-        console.log("hello")
+
         updateDataChat()
     }
 
     function handleOnClick() {
         updateDataChat()
-        setText("")
+
         inputRef.current.focus()
     }
 

@@ -1,5 +1,6 @@
 import firebase, { db } from "./config"
-
+import React from 'react'
+export const FieldValue = firebase.firestore.FieldValue
 export const addDocument = (colection, data) => {
     let query = db.collection(colection)
 
@@ -8,7 +9,10 @@ export const addDocument = (colection, data) => {
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 }
-
+export const deleteDocument = (colection, id) => {
+    let query = db.collection(colection).doc(id)
+    query.delete()
+}
 export const generateKeywords = (displayName) => {
     // liet ke tat cac hoan vi. vd: name = ["David", "Van", "Teo"]
     // => ["David", "Van", "Teo"], ["David", "Teo", "Van"], ["Teo", "David", "Van"],...
@@ -129,3 +133,4 @@ export const getTime = () => {
 
     return new Intl.DateTimeFormat("en-US", options).format(date); //"7/22/2018, 7:22:13 AM"
 }
+

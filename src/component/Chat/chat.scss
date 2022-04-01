@@ -113,7 +113,6 @@
             }
             .body__chat-item {
                 min-width: 90%;
-                min-height: 60px;
                 @include flex(start, start);
                 padding: 5px;
                 .chatItem__content {
@@ -142,7 +141,7 @@
                     @include flex-col(start, start);
                     .content-img {
                         max-width: 350px;
-                        max-height: 400px;
+
                         overflow: hidden;
                         border-radius: 5px;
 
@@ -254,6 +253,9 @@
         height: 100%;
         object-fit: contain;
     }
+}
+.box-shadow {
+    box-shadow: 0px 2px 4px $shadow-color;
 }
 .isUser {
     border-top: 2px solid $btn-color;
