@@ -14,9 +14,12 @@ export default function SelectedUser({ handleChange, addTaskVisible }) {
             <Option key={memberProjects[i].uid}>
                 {
                     <div
-                        style={{ display: 'flex' }}
+                        style={{ display: 'flex', justifyContent: "start", alignItems: 'center' }}
                     >
-                        <Avatar size={30} src={memberProjects[i].photoURL} />
+                        <Avatar size={30} src={memberProjects[i].photoURL}>
+                            {memberProjects[i].photoURL ? '' : memberProjects[i].displayName?.charAt(0)?.toUpperCase()}
+
+                        </Avatar>
                         <span style={{ fontSize: "18px", marginLeft: "10px" }}>
                             {memberProjects[i].displayName}
                         </span>

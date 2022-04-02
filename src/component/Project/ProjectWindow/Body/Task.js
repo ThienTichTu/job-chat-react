@@ -2,8 +2,13 @@ import { useContext, useEffect, useState } from 'react'
 import { ProjectContext } from '../../../../context/ProjectProvider'
 import { EllipsisOutlined, NodeCollapseOutlined } from "@ant-design/icons"
 import { Avatar, Timeline } from "antd"
+import { VisibleContext } from '../../../../context/VisibleProvider'
 import _ from "lodash"
 export default function Task({ data, index }) {
+
+    const { setIsTasKUpdate } = useContext(VisibleContext)
+
+    const { setTask } = useContext(ProjectContext)
 
     const [maker, setMaker] = useState([])
 
@@ -21,7 +26,9 @@ export default function Task({ data, index }) {
     }, [data, memberProjects])
 
     const handleCallTask = () => {
-        console.log("call task")
+
+        setTask({ ...data, maker: maker })
+        setIsTasKUpdate(true)
     }
 
     return (

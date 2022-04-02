@@ -5,15 +5,6 @@ import { v4 } from "uuid";
 import DragDropContextDashboard from "./DragDropContext"
 import { ProjectContext } from "../../../../context/ProjectProvider"
 import { updateDocument, FieldValue } from '../../../../firebase/services';
-const item = {
-    id: v4(),
-    name: "Clean the house"
-}
-
-const item2 = {
-    id: v4(),
-    name: "Wash the car"
-}
 
 export default function ProjectMainBoard() {
     const [addprocessVisible, setAddprocessVisible] = useState(false)

@@ -1,10 +1,10 @@
 import { useState, useContext, useEffect, useCallback } from 'react'
-import { Drawer, Button, Space, Timeline, message } from 'antd';
+import { Drawer, Button, Space, List, message } from 'antd';
 import { Input, DatePicker } from 'antd';
 import { ProjectContext } from "../../../../context/ProjectProvider"
 import { v4 } from "uuid";
 import SelectedUser from "../Service/SelectedUser"
-import { PlusOutlined } from "@ant-design/icons"
+import { PlusOutlined, CheckOutlined, CheckCircleFilled } from "@ant-design/icons"
 import { getTime, addDocument, updateDocument, FieldValue } from "../../../../firebase/services"
 import AddTaskUploadFile from "./AddTaskUploadFile"
 
@@ -45,12 +45,12 @@ export default function AddTask({ addTaskVisible, setAddTaskVisible, data }) {
     }
 
     const handleAddTask = () => {
-        // fileData
         if (name === "") {
             message.warning("Tên công việc không được để trống!!")
             return
         }
         message.loading({ content: 'đang tạo công việc...', key });
+
         const task = {
             name,
             description,
@@ -89,8 +89,6 @@ export default function AddTask({ addTaskVisible, setAddTaskVisible, data }) {
             setFileData(data)
             return
         }
-        return
-
     }, [addTaskVisible])
     return (
         <Drawer
@@ -151,7 +149,7 @@ export default function AddTask({ addTaskVisible, setAddTaskVisible, data }) {
                         onClick={() => {
                             const item = {
                                 content: checklistValue,
-                                time: getTime()
+                                state: "unchecked",
                             }
                             setCheckListArray([...checklistArray, item])
                             setChecklistValue("")
@@ -161,21 +159,25 @@ export default function AddTask({ addTaskVisible, setAddTaskVisible, data }) {
                     </div>
                 </div>
                 <div className="addtask-checklist">
-                    <Timeline>
-                        {
-                            checklistArray.map((item, index) => (
-                                <Timeline.Item key={index}>
-                                    <span
-                                        style={{ cursor: "pointer" }}
-                                    >
-                                        {item.content}
-                                    </span>
-                                </Timeline.Item>
-                            ))
-                        }
-
-                    </Timeline>
-
+                    <List
+                        itemLayout="horizontal"
+                        dataSource={checklistArray}
+                        renderItem={item => (
+                            <List.Item>
+                                <List.Item.Meta
+                                    avatar={item.state === "checked"
+                                        ? <CheckOutlined style={{ marginLeft: "10px" }} />
+                                        : <CheckCircleFilled style={{ marginLeft: "10px", color: "green" }} />}
+                                    title={
+                                        <span >
+                                            {item.content}
+                                        </span>
+                                    }
+                                // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                />
+                            </List.Item>
+                        )}
+                    />
                 </div>
                 <Button
                     danger type="dashed" style={{ marginTop: "20px", width: "100%", fontSize: "18px", height: "40px" }}
@@ -184,7 +186,7 @@ export default function AddTask({ addTaskVisible, setAddTaskVisible, data }) {
 
                     Thêm file đính kèm
                 </Button>
-                <Button type="primary" onClick={handleAddTask} style={{ marginTop: "auto", width: "100%", height: "50px", fontSize: "20px", fontWeight: "bold" }}>
+                <Button type="primary" onClick={handleAddTask} style={{ marginTop: "10px", width: "100%", height: "50px", fontSize: "20px", fontWeight: "bold" }}>
                     Tạo công việc
                 </Button>
             </div>

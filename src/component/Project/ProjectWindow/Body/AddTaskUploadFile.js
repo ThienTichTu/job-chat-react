@@ -1,8 +1,10 @@
 import { useState, useEffect, memo } from 'react'
 import { Drawer, Button, Space, Upload } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, DeleteFilled, FileFilled } from '@ant-design/icons';
 import { storage } from '../../../../firebase/config'
+import _ from "lodash";
 import { ref, getDownloadURL, uploadBytesResumable } from "@firebase/storage"
+import { v4 } from "uuid"
 const customName = (name) => {
     const name1 = name.split('.')[0];
     const name2 = name.split('.')[1];
@@ -10,99 +12,84 @@ const customName = (name) => {
 
 }
 function AddTaskUploadFile({ uploadfileVisible, setUploadfileVisible, setFileCallBack }) {
-
-    const [file, setFile] = useState([])
-    const [handleFile, setHandleFile] = useState([])
     const [uploading, setUploading] = useState(false)
-    const [dataFile, setDataFile] = useState([])
+    const [filelist, setFilelist] = useState([])
+    const [indexURL, setIndexURL] = useState()
     const onClose = () => {
+        const newFile = filelist.filter(item => item.status === "done").map(item => {
+            const { file, ...data } = item
+            return data
+        })
+        setFileCallBack(newFile)
         setUploadfileVisible(false)
     }
-
-    const handleSetImg = (item) => {
-
-        setFile(preState => [...preState, item])
-        return false
-    }
     const handleUploadImg = () => {
-        setUploading(true)
+        filelist.forEach((item, index) => {
+            const storageRef = ref(storage, item.ref);
 
-        const cusTomFile = file.map(item => ({
-            type: item.type,
-            name: customName(item.name),
-            data: item
+            const uploadTask = uploadBytesResumable(storageRef, item.file);
 
-        }))
-        const setRef = cusTomFile.map((item) => {
-            const { name, type } = item
-            const storageRef = ref(storage, `tasks/${item.name}`);
-
-            const uploadTask = uploadBytesResumable(storageRef, item.data);
             uploadTask.on('state_changed',
                 (snapshot) => { },
-                (error) => {
-                    setHandleFile({
-                        name,
-                        type,
-                        ref: `tasks/${item.name}`
-                    })
-
-                },
+                (error) => { setIndexURL(index) },
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        setHandleFile({
-                            name,
-                            type,
-                            ref: `tasks/${item.name}`
-                        })
+                        setIndexURL(index)
                     });
                 }
             );
         })
 
-        setHandleFile(setRef)
 
     }
+
+    useEffect(() => {
+        if (indexURL === 0 || indexURL !== null) {
+            console.log(filelist[indexURL].ref)
+            const storageRef = ref(storage, filelist[indexURL].ref);
+            getDownloadURL(storageRef).then((downloadURL) => {
+                const a = [...filelist]
+                a[indexURL].url = downloadURL
+                a[indexURL].status = "done"
+                setFilelist(a)
+            });
+
+        }
+    }, [indexURL])
 
     useEffect(() => {
         return () => {
-            setFile([])
-            setHandleFile([])
-            setDataFile([])
-            setUploading(false)
+            filelist.forEach(item => {
+                item?.url && URL.revokeObjectURL(item.url)
+            })
+            setFilelist([])
+            setIndexURL(null)
         }
     }, [uploadfileVisible])
+    const handleUploadFile = (e) => {
+        const list = _.reduce(e.target.files, (obj, param) => {
+            const a = {
+                name: param.name,
+                type: param.type,
+                ref: `tasks/${customName(param.name)}`,
+                url: URL.createObjectURL(param),
+                status: "wait",
+                file: param
+            }
+            obj.push(a)
+            return obj
+        }, [])
+        setFilelist(list)
 
-
-
-    useEffect(() => {
-        if (handleFile?.ref) {
-            const storageRef = ref(storage, handleFile.ref);
-            getDownloadURL(storageRef)
-                .then((downloadURL) => {
-                    setDataFile(preState => [...preState, {
-                        ...handleFile,
-                        photoURL: downloadURL
-                    }])
-
-                })
-        }
-    }, [handleFile])
-
-    useEffect(() => {
-
-        if (file.length === dataFile.length) {
-            setFileCallBack(dataFile)
-            setUploading(false)
-        }
-
-    }, [dataFile])
-
-
-    const handleRemove = (e) => {
-        const newFile = file.filter(item => item.uid !== e.uid)
-        setFile([...newFile])
     }
+
+    const handleRemove = (index) => {
+        const newlist = [...filelist]
+        URL.revokeObjectURL(newlist[index].url)
+        newlist.splice(index, 1)
+        setFilelist(newlist)
+    }
+
 
     return (
 
@@ -114,34 +101,76 @@ function AddTaskUploadFile({ uploadfileVisible, setUploadfileVisible, setFileCal
             visible={uploadfileVisible}
             extra={
                 <Space>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button type="primary" onClick={onClose}>
-                        OK
+                    <Button
+                        type="primary"
+                        style={{ width: "100px" }}
+                        onClick={handleUploadImg}
+                    // loading={uploading}
+                    >
+                        {uploading ? 'Đang lưu file' : 'Upload'}
                     </Button>
                 </Space>
             }
 
         >
             <div className="task__upload">
+                <input type="file" id="taskupload" accept='.doc,.pdf,.png,.jpg,.ai' multiple onChange={handleUploadFile} />
 
-                <Upload.Dragger
-                    action="http://localhost:4000"
-                    multiple
-                    listType='picture'
-                    beforeUpload={handleSetImg}
-                    onRemove={handleRemove}
-                >
-                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                </Upload.Dragger>
+                <label htmlFor="taskupload" className="btn-upload">
+                    <UploadOutlined />
+                    <span style={{ fontSize: "18px" }}>Tải file lên</span>
+                </label>
+                <div className="task__upload-list">
+                    {
+                        filelist.map((item, index) => {
+                            const isImg = item.type.split("/")[0]
+
+                            return (
+                                <div key={index} className={`uploadlist-item ${item.status === "done" && "uploaddone"}`}>
+                                    {
+                                        isImg === 'image'
+                                            ? <div className="uploadlist-iconimg">
+                                                <img src={item.url} alt="" />
+
+                                            </div>
+                                            :
+                                            <div className="uploadlist-icon">
+                                                <FileFilled />
+
+                                            </div>
+                                    }
+
+
+                                    <span className="uploadlist-name">
+                                        {item.name}
+                                    </span>
+                                    <div className="uploadlist-delete"
+                                        onClick={() => handleRemove(index)}
+                                    >
+                                        <DeleteFilled />
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+
+                    {/* <div className="uploadlist-item">
+                        <div className="uploadlist-iconimg">
+                            <img src={link} alt="" />
+
+                        </div>
+
+                        <span className="uploadlist-name">
+                            XXX.png
+                        </span>
+                        <div className="uploadlist-delete">
+                            <DeleteFilled />
+                        </div>
+                    </div> */}
+                </div>
+
             </div>
-            <Button
-                type="primary"
-                style={{ marginTop: 16 }}
-                onClick={handleUploadImg}
-                loading={uploading}
-            >
-                {uploading ? 'Đang lưu file' : 'Upload'}
-            </Button>
+
 
         </Drawer>
 

@@ -52,8 +52,8 @@
         animation: rotate360 1s linear infinite;
     }
 }
-@mixin hoverRotate2() {
-    animation: rotate360 5s linear infinite;
+@mixin hoverRotate2($time : 5s) {
+    animation: rotate360 $time linear infinite;
 }
 @keyframes rotate360 {
     from {

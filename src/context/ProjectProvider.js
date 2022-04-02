@@ -10,6 +10,7 @@ export default function ProjectProvider({ children }) {
 
     const [projectId, setProjectId] = useState("")
 
+    const [task, setTask] = useState({})
 
     const ProjectCondition = useMemo(() => {
         return {
@@ -38,11 +39,11 @@ export default function ProjectProvider({ children }) {
     }, [selectedProject, projectId])
 
     const ProcessCondition = useMemo(() => {
-        // const value = selectedProject?.process ? selectedProject.process : []
+        const value = selectedProject?.process ? selectedProject.process : []
         return {
-            fieldName: 'project',
-            operator: '==',
-            compareValue: projectId,
+            fieldName: 'pid',
+            operator: 'in',
+            compareValue: value,
         };
     }, [selectedProject, projectId, projects])
 
@@ -82,7 +83,8 @@ export default function ProjectProvider({ children }) {
             projectId,
             memberProjects,
             process,
-            processOBJ
+            processOBJ,
+            task, setTask
         }}>
             {children}
         </ProjectContext.Provider>

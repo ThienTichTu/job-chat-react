@@ -10,6 +10,8 @@ export default function VisibleProvider({ children }) {
     const [isGroupChatModalInvite, setIsGroupChatModalInvite] = useState(false)
     const [isGroupChatUpdate, setIsGroupChatUpdate] = useState(false)
     const [isProjectModal, setIsProjectModal] = useState(false)
+    const [isTasKUpdate, setIsTasKUpdate] = useState(false)
+
     const [idUserPreview, setIdUserPreview] = useState("")
 
 
@@ -30,7 +32,9 @@ export default function VisibleProvider({ children }) {
                 isGroupChatUpdate,
                 setIsGroupChatUpdate,
                 isProjectModal,
-                setIsProjectModal
+                setIsProjectModal,
+                isTasKUpdate,
+                setIsTasKUpdate
             }}
         >
             {children}

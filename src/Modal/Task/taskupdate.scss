@@ -1,0 +1,146 @@
+@use "../../scss/" as *;
+#taskupload1{
+    display: none;
+}
+.task__update{
+    @include flex-col(start, start);
+    width: 100%;
+    height: 100%;
+    &-maker{
+        width: 100%;
+        height: 40px;
+        @include flex(start, center);
+        margin-top: 20px;
+        span{
+            font-size:20px;
+            font-weight:bold;
+         
+        }
+    }
+    &-checklist{
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight:bold;
+        width: 100%;
+        .checklist-input{
+            margin-top: 10px;
+            width: 100%;
+            @include flex(start, center)
+        }
+        .checklist-content{
+            width: calc(100% - 50px);
+            min-height: 0px;
+            max-height: 300px;
+            overflow-y: auto;
+            &-item{
+                @include flex(start, center)
+            }
+            &-icon{
+                margin-left: auto;
+                width: 55px;
+                @include flex(space-around, center)
+            }
+        }
+    }
+}
+.uploadfile{
+    width: 100%;
+    height: 100%;
+    @include flex-col(start, start);
+    &-body{
+        width: 100%;
+        margin-top: 20px;
+        max-height: 600px;
+        overflow-y: auto;
+        .uploadfile-item{
+            width: 100%;
+            height: 60px;
+            border: 1px solid $border-color;
+            @include flex(start, center);
+            padding: 5px;
+        }
+        .uploadfile-icon{
+            @include avatar(40px)
+        }
+        .uploadfile-link{
+            margin-left: 10px;
+            font-size: 18px;
+            width: 70%;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            overflow:hidden;
+        }
+        .uploadfile-delete{
+            margin-left: auto;
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .uploadfile-iconfile{
+            width: 40px;
+            text-align: center;
+            font-size: 30px;
+            color: rgb(2, 186, 242);
+        }
+    }
+   
+    .btn-upload{
+        cursor: pointer;
+        width: 100%;
+        height: 80px;
+        @include flex-col(center,center);
+        border: 1px dashed rgb(1, 130, 242);
+        color: rgb(1, 130, 242);
+        font-size: 22px;
+    }
+ 
+}
+.uploadfile-item + .uploadfile-item{
+    margin-top: 10px;
+}
+.done{
+    border: 1px solid rgb(1, 130, 242) !important;
+}
+.update-maker-add{
+    height: 40px;
+    width: 40px;
+    border: 1px dashed #000;
+    border-radius: 50px;
+    @include flex-col(center, center);
+    cursor: pointer;
+    &:hover{
+        @include hoverRotate2()
+    }
+
+}
+.task__update-updatemember{
+    border-top: 1px solid #000;
+    margin-top: 20px;
+    width: 100%;
+    min-height: 200px;
+    max-height: 500px;
+    overflow-y: auto;
+    @include flex-col(start, start);
+    padding: 5px;
+}
+.avatar-item{
+    @include flex(start, center);
+    margin-right: 20px;
+   
+}
+
+.disable{
+    background-color: rgb(241, 241, 241);
+}
+.avatar-item2{
+    @include flex(start, center);
+    margin-right: 20px;
+    width: 420px;
+    padding: 5px;
+    border-radius: 5px;
+    
+}
+.avatar-item2 + .avatar-item2{
+    margin-top: 20px;
+}

@@ -5,6 +5,7 @@ import ChatGroupModal from "./ChatGroupModal/ChatGroupModal"
 import ChatGroupModalInVite from "./ChatGroupModal/ChatGroupModalInVite"
 import ChatGroupModalUpdate from "./ChatGroupModal/ChatGroupModalUpdate"
 import ProjectModal from "./Project/ProjectModal"
+import Taskupdate from "./Task/Taskupdate"
 export default function ModalWarper() {
     return (
         <>
@@ -14,6 +15,7 @@ export default function ModalWarper() {
             <ChatGroupModalInVite />
             <ChatGroupModalUpdate />
             <ProjectModal />
+            <Taskupdate />
         </>
     )
 }

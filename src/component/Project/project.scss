@@ -230,9 +230,11 @@
     &-checklist {
         margin-top: 10px;
         width: 100%;
-        min-height: 220px;
+        min-height: 100px;
+        max-height: 250px;
+        overflow-y: auto;
         border: 1px dashed $border-color;
-        @include flex(start, start);
+
         padding: 10px;
     }
     .checkList_icon {
@@ -254,12 +256,74 @@
 .task__upload {
     max-height: 100%;
     overflow-y: auto;
+    width: 100%;
+    @include flex-col(start,center);
+    .btn-upload{
+        cursor: pointer;
+        width: 100%;
+        height: 80px;
+        @include flex-col(center,center);
+        border: 1px dashed rgb(1, 130, 242);
+        color: rgb(1, 130, 242);
+        font-size: 22px;
+    }
+    &-list{
+        max-height: 700px;
+        overflow-y: auto;
+        width: 100%;
+        margin-top: 10px;
+        .uploadlist-item{
+            width: 100%;
+            height: 80px;
+            @include flex(start, center);
+            padding: 5px;
+            border: 1px solid $border-color;
+        }
+        .uploadlist-iconimg{
+            @include avatar(60px);
+            margin-right: 15px;
+        }
+        .uploadlist-icon{
+            margin-right: 15px;
+            font-size: 30px;
+            width: 60px;
+            text-align: center;
+            color:rgb(1, 130, 242);
+            cursor: pointer;
+        }
+        .uploadlist-name{
+            font-size: 18px;
+            width: 70%;
+            text-overflow:ellipsis;
+        white-space:nowrap;
+        overflow:hidden;
+        }
+        .uploadlist-delete{
+            font-size: 22px;
+            margin-left: auto;
+            cursor: pointer;
+            &:hover{
+                font-size: 24px;
+            }
+        }
+    }
+    
+    
+}
+.uploaddone{
+    border: 1px solid rgb(1, 36, 229) !important;
+}
+#taskupload{
+    display: none;
 }
 .mb-20 {
     margin-bottom: 10px;
 }
 .task + .task {
     margin-top: 5px;
+}
+.uploadlist-item + .uploadlist-item{
+    margin-top: 10px;
 }
 .add-project {
     width: 100px;
