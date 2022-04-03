@@ -2,10 +2,10 @@ import { useState, useRef, useContext } from 'react'
 import { SearchOutlined, CloseOutlined } from "@ant-design/icons"
 import SearchNameItem from "./SearchNameItem"
 import { FindUserWithName } from "../../../firebase/services"
-
+import { AuthContext } from "../../../context/AuthProvider"
 import { VisibleContext } from '../../../context/VisibleProvider'
 export default function FriendWindowSearchName() {
-
+    const { userCurrent: { uid } } = useContext(AuthContext)
     const {
         setIsPreviewUserVisible,
         setIdUserPreview
@@ -28,7 +28,9 @@ export default function FriendWindowSearchName() {
             }
             timeoutRef.current = setTimeout(async () => {
                 const user = await FindUserWithName(value)
-                setUserRs([...user])
+                const userFil = user.filter(item => item.uid !== uid)
+
+                setUserRs([...userFil])
 
             }, 600)
         }

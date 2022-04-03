@@ -42,6 +42,27 @@
             }
         }
     }
+    .update-deadline-item{
+        margin-left: 10px;
+    }
+    &-deadline{
+        margin-top: 20px;
+        @include flex(start, center);
+        span{
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .task-dealine-show{
+            width: 150px;
+            @include flex(start, center);
+            span{
+                font-size: 16px;
+                margin-left: 10px;
+                font-weight: 500;
+            }
+        }
+    }
 }
 .uploadfile{
     width: 100%;

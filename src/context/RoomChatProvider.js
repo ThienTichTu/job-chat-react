@@ -16,7 +16,8 @@ export default function RoomChatProvider({ children }) {
 
     const [roomListFriend, setRoomListFriend] = useState([])
     const [roomListGroup, setRoomListGroup] = useState([])
-
+    const [roomListTask, setRoomListTask] = useState([])
+    const [scroll, setScroll] = useState()
 
     const roomsCondition = useMemo(() => {
         return {
@@ -72,9 +73,6 @@ export default function RoomChatProvider({ children }) {
         const roomsGroup = _.filter(rooms, function (o) { return o.type === 'group chat' });
         const roomsGroupDetail = _.flatMap(roomsGroup, (item) => {
 
-            const friend = _.filter(item.members, (o) => o !== uid)
-
-
             const { data, ...newdata } = item
 
 
@@ -87,8 +85,18 @@ export default function RoomChatProvider({ children }) {
 
     }, [rooms])
 
+    useEffect(() => {
+        const roomsGroup = _.filter(rooms, function (o) { return o.type === 'taskchat' });
+        const roomsGroupDetail = _.flatMap(roomsGroup, (item) => {
+            const { data, ...newdata } = item
+            return {
+                ...newdata,
 
+            }
+        })
+        setRoomListTask(roomsGroupDetail)
 
+    }, [rooms])
 
     return (
         <RoomChatContext.Provider value={{
@@ -97,7 +105,9 @@ export default function RoomChatProvider({ children }) {
             setRoomId,
             selectedRoom,
             members,
-            roomListGroup
+            roomListGroup,
+            roomListTask,
+            scroll, setScroll
         }}>
             {children}
         </RoomChatContext.Provider>

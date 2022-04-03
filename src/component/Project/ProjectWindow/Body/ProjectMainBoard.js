@@ -29,21 +29,23 @@ export default function ProjectMainBoard() {
             const [remove] = coppiesItemSource.splice(source.index, 1)
             coppieitem.splice(destination.index, 0, remove)
             updateDocument('process', source.droppableId, {
-                tasks: FieldValue.arrayRemove(remove)
+                tasks: [...coppiesItemSource]
             })
             updateDocument('process', destination.droppableId, {
-                tasks: FieldValue.arrayRemove(remove)
+                tasks: [...coppieitem]
             })
+
             updateDocument('tasks', remove.id, {
                 process: destination.droppableId
             })
+
+
 
         } else {
             const column = projects[source.droppableId]
             const coppiesItem = column.tasks
             const [remove] = coppiesItem.splice(source.index, 1)
             coppiesItem.splice(destination.index, 0, remove)
-
             setProjects({
                 ...projects,
                 [source.droppableId]: {

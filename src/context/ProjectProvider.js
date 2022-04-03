@@ -65,6 +65,10 @@ export default function ProjectProvider({ children }) {
     const processOBJ = useMemo(() => {
         const process1 = _.reduce(process, function (obj, param) {
             const taskitem = tasks.filter(item => item.process === param.id)
+                .map((item, index) => ({
+                    ...item,
+                    index: index
+                }))
 
             param.tasks = taskitem
             obj[param.id] = { ...param }

@@ -1,0 +1,86 @@
+@use "../../../scss/" as *;
+.taskchat{
+    height: 100%;
+    width: 100%;
+    @include flex-col(end,start);
+    &-body{
+        width: 100%;
+        overflow-y: auto;
+        margin-bottom: 15px;
+        max-height: calc(100% - 75px);
+        @include flex-col(start,start);
+        
+    }
+    &-footer{
+        height: 60px;
+        width: 100%;
+        @include flex(start, center);
+        border-top: 1px solid $border-color;
+        .footer-input{
+            width: 90%;
+        }
+        .footer-send{
+            width: 10%;
+            color: rgb(0, 202, 253);
+            font-size: 24px;
+            margin-left: 10px;
+            height: 100%;
+            @include flex(space-around, center);
+            cursor: pointer;
+        }
+    }
+    .taskchat-item{
+        width: 90%;
+        @include flex(start, start);
+        min-height: 60px;
+        padding: 0px 12px;
+        &-avatar{
+            width: 55px;
+        }
+        &-content{
+            background-color:rgb(230, 230, 230);
+            max-width: calc(100% - 100px);
+            min-width: 150px;
+            padding: 5px 10px 5px;
+            height: 100%;
+            border-radius: 5px;
+            font-size: 18px;
+       position: relative;
+
+        }
+        &-contentFile{
+            width: 300px;
+            height: 70px;
+            background-color:rgb(225, 254, 255);
+            @include flex(start, center);
+            border-radius: 5px;
+       position: relative;
+            .contentFile-icon{
+                font-size: 26px;
+                width: 50px;
+                text-align: center;
+            }
+          
+            .contentFile-name{
+                font-size: 18px;
+                text-overflow:ellipsis;
+                white-space:nowrap;
+                overflow:hidden;
+                padding: 0px 10px;
+                width: calc(100% - 50px);
+            }
+        }
+        &-time{
+            position: absolute;
+            bottom: 0;
+            font-size: 12px;
+            width: 100%;
+            text-align: start;
+            font-weight: 600;
+            opacity: 0.7;
+        }   
+    }
+}
+.taskchat-item + .taskchat-item{
+    margin-top: 15px;
+}

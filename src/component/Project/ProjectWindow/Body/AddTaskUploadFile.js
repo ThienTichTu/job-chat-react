@@ -45,15 +45,15 @@ function AddTaskUploadFile({ uploadfileVisible, setUploadfileVisible, setFileCal
 
     useEffect(() => {
         if (indexURL === 0 || indexURL !== null) {
-            console.log(filelist[indexURL].ref)
-            const storageRef = ref(storage, filelist[indexURL].ref);
-            getDownloadURL(storageRef).then((downloadURL) => {
-                const a = [...filelist]
-                a[indexURL].url = downloadURL
-                a[indexURL].status = "done"
-                setFilelist(a)
-            });
-
+            if (filelist[indexURL]?.ref) {
+                const storageRef = ref(storage, filelist[indexURL].ref);
+                getDownloadURL(storageRef).then((downloadURL) => {
+                    const a = [...filelist]
+                    a[indexURL].url = downloadURL
+                    a[indexURL].status = "done"
+                    setFilelist(a)
+                });
+            }
         }
     }, [indexURL])
 

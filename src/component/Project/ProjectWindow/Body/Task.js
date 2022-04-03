@@ -3,10 +3,12 @@ import { ProjectContext } from '../../../../context/ProjectProvider'
 import { EllipsisOutlined, NodeCollapseOutlined } from "@ant-design/icons"
 import { Avatar, Timeline } from "antd"
 import { VisibleContext } from '../../../../context/VisibleProvider'
+import { RoomChatContext } from "../../../../context/RoomChatProvider"
+
 import _ from "lodash"
 export default function Task({ data, index }) {
-
     const { setIsTasKUpdate } = useContext(VisibleContext)
+    const { roomListTask, setRoomId } = useContext(RoomChatContext)
 
     const { setTask } = useContext(ProjectContext)
 
@@ -26,7 +28,8 @@ export default function Task({ data, index }) {
     }, [data, memberProjects])
 
     const handleCallTask = () => {
-
+        const { id } = _.find(roomListTask, (item) => item.taskid === data.tid)
+        setRoomId(id)
         setTask({ ...data, maker: maker })
         setIsTasKUpdate(true)
     }
@@ -60,7 +63,7 @@ export default function Task({ data, index }) {
                 <div className="task-body-dealine">
                     <span>
                         {
-                            data.dealine.length > 0 && <span>{`Dealine ${data.dealine[1]}`}</span>
+                            data.dealine.length > 0 && data.dealine[0] !== '' && <span>{`Dealine ${data.dealine[1]}`}</span>
                         }
                     </span>
                     <div style={{ color: "green", cursor: "pointer" }}

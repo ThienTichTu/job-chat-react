@@ -3,22 +3,25 @@ import { useContext, useEffect, useState, useCallback } from 'react'
 import { VisibleContext } from "../../context/VisibleProvider"
 import { ProjectContext } from "../../context/ProjectProvider";
 import { PlusOutlined } from "@ant-design/icons"
-import { Drawer, Button, Space, Timeline, message, Input, Avatar, Modal } from 'antd';
+import { Drawer, Button, Space, DatePicker, message, Input, Avatar, Modal } from 'antd';
 import { deleteDocument, updateDocument, FieldValue } from "../../firebase/services"
 import UploadFile from "./UploadFile";
-import { openNotification } from "./service"
-import { ExclamationCircleOutlined } from "@ant-design/icons"
-
+import { RoomChatContext } from "../../context/RoomChatProvider"
+import { ExclamationCircleOutlined, SwapRightOutlined } from "@ant-design/icons"
+import moment from 'moment';
 import UpdateMember from "./UpdateMember"
 import ChecklistFile from "./ChecklistFile"
 const { TextArea } = Input;
 const { confirm } = Modal;
-
+const dateFormat = 'DD/MM/YYYY';
+const { RangePicker } = DatePicker;
 export default function Taskupdate() {
-    const { isTasKUpdate, setIsTasKUpdate } = useContext(VisibleContext)
-
+    const { isTasKUpdate, setIsTasKUpdate, setIsTasKChat } = useContext(VisibleContext)
+    const { setRoomId } = useContext(RoomChatContext)
+    const [dealine, setDealine] = useState(['', ''])
     const [updateMemberVisible, setUpdateMemberVisible] = useState(false)
     const [uploadFileVisible, setUploadFileVisible] = useState(false)
+
     const [checklist, setCheckList] = useState([])
     const { task } = useContext(ProjectContext)
     const [file, setFile] = useState([])
@@ -31,7 +34,14 @@ export default function Taskupdate() {
         setData(task)
         setFile(task.filedata)
         setCheckList(task.checklistArray)
+        if (task.dealine && task.dealine.length > 0) {
+            setDealine(task.dealine)
+        } else {
+            setDealine(['', ''])
+        }
+
         return () => {
+            setDealine(['', ''])
             setMaker([])
             setData({})
             setCheckList([])
@@ -40,7 +50,7 @@ export default function Taskupdate() {
     }, [isTasKUpdate, task])
     const onClose = () => {
         setIsTasKUpdate(false)
-
+        setRoomId("")
     }
 
 
@@ -99,16 +109,38 @@ export default function Taskupdate() {
         }
         if (option === "check") {
             const newchecklist = [...checklist]
-            newchecklist[item].state = "checked"
+            if (newchecklist[item].state === "checked") {
+                newchecklist[item].state = "unchecked"
+            } else {
+                newchecklist[item].state = "checked"
+            }
             setCheckList(newchecklist)
             return
         }
 
     }, [checklist, task])
 
-    const handleUpdateTasks = () => {
-        console.log(file)
+    const handleChangeTime = (e, str) => {
+        setDealine(str)
+
     }
+
+    const handleUpdateTasks = () => {
+        if (data.name === "") {
+            message.warning("Tên công việc không được để trống...")
+            return
+        }
+        const a = maker.map(item => item.uid)
+        const b = dealine[0] && dealine[0] === "" ? [] : dealine
+        data.filedata = file
+        data.dealine = b
+        data.maker = a
+        data.checklistArray = checklist
+        updateDocument('tasks', data.id, data)
+        message.success("Cập nhật thành công...")
+    }
+
+
 
     return (
 
@@ -120,6 +152,7 @@ export default function Taskupdate() {
             visible={isTasKUpdate}
             extra={
                 <Space>
+                    <Button type="primary" ghost onClick={() => setIsTasKChat(true)}  > Tin nhắn </Button>
                     <Button danger onClick={hanldeDelete}> Xóa công việc</Button>
                     <Button type="dashed" danger onClick={() => setUploadFileVisible(true)}> File đính kèm</Button>
                     <Button type="primary" onClick={handleUpdateTasks}> Cập nhật</Button>
@@ -127,7 +160,8 @@ export default function Taskupdate() {
             }
         >
             <div className="task__update">
-                <Input value={data.name}
+                <Input
+                    value={data.name}
                     placeholder="Tên công việc"
                     size="large"
                     allowClear onChange={(e) => setData({ ...data, name: e.target.value })} />
@@ -157,10 +191,40 @@ export default function Taskupdate() {
                         <PlusOutlined />
                     </div>
                 </div>
+                <div className="task__update-deadline">
+                    <span>Thời hạn: </span>
+                    <RangePicker
+                        dateRender={current => {
+                            const style = {};
+                            if (current.date() === 1) {
+                                style.border = '1px solid #1890ff';
+                                style.borderRadius = '50%';
+                            }
+                            return (
+                                <div className="ant-picker-cell-inner" style={style}>
+                                    {current.date()}
+                                </div>
+                            );
+                        }}
+                        onChange={(e, str) => handleChangeTime(e, str)}
+                        format={dateFormat}
+                    />
+                    {
+                        dealine && dealine[0] &&
+                        <div className="task-dealine-show">
+                            <span>{dealine[0]}</span>
+                            <SwapRightOutlined />
+                            <span
+                                style={{ color: "red" }}
+                            >{dealine[1]}</span>
+                        </div>
+                    }
+                </div>
                 <ChecklistFile
                     data={checklist}
                     handleCheck={updateCheckList}
                 />
+
 
             </div>
             <UpdateMember

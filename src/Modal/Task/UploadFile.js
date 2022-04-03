@@ -81,13 +81,15 @@ function UploadFile({ uploadFileVisible, setUploadFileVisible, file, setFileCall
     useEffect(() => {
 
         if (indexURL === 0 || indexURL !== null) {
-            const storageRef = ref(storage, fileList[indexURL].ref);
-            getDownloadURL(storageRef).then((downloadURL) => {
-                const a = [...fileList]
-                a[indexURL].url = downloadURL
-                a[indexURL].status = "done"
-                setFilelist(a)
-            });
+            if (fileList[indexURL]?.ref) {
+                const storageRef = ref(storage, fileList[indexURL].ref);
+                getDownloadURL(storageRef).then((downloadURL) => {
+                    const a = [...fileList]
+                    a[indexURL].url = downloadURL
+                    a[indexURL].status = "done"
+                    setFilelist(a)
+                });
+            }
 
         }
     }, [indexURL])

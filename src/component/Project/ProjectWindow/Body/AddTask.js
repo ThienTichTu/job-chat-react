@@ -44,13 +44,12 @@ export default function AddTask({ addTaskVisible, setAddTaskVisible, data }) {
         setAddTaskVisible(false)
     }
 
-    const handleAddTask = () => {
+    const handleAddTask = async () => {
         if (name === "") {
             message.warning("Tên công việc không được để trống!!")
             return
         }
         message.loading({ content: 'đang tạo công việc...', key });
-
         const task = {
             name,
             description,
@@ -71,7 +70,15 @@ export default function AddTask({ addTaskVisible, setAddTaskVisible, data }) {
             tasks: FieldValue.arrayUnion(task.tid)
         })
         message.success({ content: 'Tạo công việc thành công!', key, duration: 2 });
+        addDocument('rooms', {
+            type: 'taskchat',
+            members: [...selectedProject.allmember],
+            data: [],
+            taskid: task.tid
+        })
+
         setAddTaskVisible(false)
+
 
     }
 
