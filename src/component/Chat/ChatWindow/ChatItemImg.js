@@ -1,31 +1,44 @@
 import React from 'react'
-import { Avatar } from "antd"
-
-export default function ChatItemImg({ isUser, data }) {
+import { Avatar, Image } from "antd"
+import { FileFilled } from "@ant-design/icons"
+export default function ChatItemImg({ isUser, data, useSend, handleSetpreviews }) {
     return (
         <>
-            <div className="chatItem__avatar">
-                <Avatar size={40} src="https://i.pravatar.cc/150?img=3">T</Avatar>
-            </div>
-
-            <div className="chatItem__content-img">
-                <div className="content-img box-shadow"
-
-                >
-                    <img src={data.img} alt="" />
-                </div>
-                <span className={`content-text isUser`}
-                    style={{ minWidth: "150px" }}
-                >
-                    {data.content}
-                    <span className="content-time"
-
+            {
+                useSend &&
+                <>
+                    <div className="chatItem__avatar"
+                        onClick={() => { handleSetpreviews(useSend.id) }}
                     >
-                        {data.time}
-                    </span>
-                </span>
+                        <Avatar size={40} src={useSend.photoURL}>
+                            {useSend.photoURL ? '' : useSend.displayName?.charAt(0)?.toUpperCase()}
+                        </Avatar>
+                    </div>
+                    <div className={`chatItem__file ${isUser}`}>
+                        <div className="chatItem__file-icon">
+                            {
+                                data.fileOfType === "image"
+                                &&
+                                <Image size={45} src={data.content.url}   ></Image>
+                            }
+                            {
+                                data.fileOfType === "application"
+                                &&
+                                <FileFilled />
 
-            </div>
+                            }
+
+                        </div>
+                        <div className="chatItem__file-content">
+                            <a href={data.content.url} target="_blank">
+                                {data.content.name}
+                            </a>
+
+                        </div>
+                    </div>
+                </>
+            }
+
         </>
     )
 }

@@ -14,7 +14,6 @@ const { TextArea } = Input;
 const key = 'updatable';
 export default function AddTask({ addTaskVisible, setAddTaskVisible, data }) {
     const { selectedProject } = useContext(ProjectContext)
-
     const [name, setName] = useState("")
 
     const [description, setDescription] = useState("")
@@ -60,6 +59,8 @@ export default function AddTask({ addTaskVisible, setAddTaskVisible, data }) {
             time: getTime(),
             process: data.id,
             project: selectedProject.id,
+            allmember: [...maker, ...selectedProject.admin],
+            admin: selectedProject.admin,
             tid: v4()
         }
         addDocument('tasks', task)

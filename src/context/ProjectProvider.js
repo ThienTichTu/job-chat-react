@@ -11,7 +11,7 @@ export default function ProjectProvider({ children }) {
     const [projectId, setProjectId] = useState("")
 
     const [task, setTask] = useState({})
-
+    const [processOBJ, setProcessOBJ] = useState({})
     const ProjectCondition = useMemo(() => {
         return {
             fieldName: 'allmember',
@@ -62,22 +62,35 @@ export default function ProjectProvider({ children }) {
 
     const memberProjects = useFireStore('users', memberProjectCondition)
 
-    const processOBJ = useMemo(() => {
-        const process1 = _.reduce(process, function (obj, param) {
-            const taskitem = tasks.filter(item => item.process === param.id)
-                .map((item, index) => ({
-                    ...item,
-                    index: index
-                }))
+    const TaskAllCondition = useMemo(() => {
+        return {
+            fieldName: 'allmember',
+            operator: 'array-contains',
+            compareValue: uid,
+        };
+    }, [uid])
 
-            param.tasks = taskitem
+    const TasksAll = useFireStore('tasks', TaskAllCondition)
+
+    useEffect(() => {
+        const process2 = process.map(item => {
+            const a = item.tasks.map(e => {
+                const b = _.find(tasks, o => o.tid === e)
+                return b
+            })
+            return {
+                ...item,
+                tasks: a
+            }
+        })
+        const process1 = _.reduce(process2, function (obj, param) {
             obj[param.id] = { ...param }
             return obj;
         }, {});
 
-        return process1
-    }, [selectedProject, projectId, process, tasks, memberProjects])
+        setProcessOBJ(process1)
 
+    }, [selectedProject, process, tasks])
 
     return (
         <ProjectContext.Provider value={{
@@ -88,7 +101,8 @@ export default function ProjectProvider({ children }) {
             memberProjects,
             process,
             processOBJ,
-            task, setTask
+            task, setTask,
+            TasksAll
         }}>
             {children}
         </ProjectContext.Provider>

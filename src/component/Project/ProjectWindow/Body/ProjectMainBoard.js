@@ -28,11 +28,14 @@ export default function ProjectMainBoard() {
             const coppiesItemSource = columnSource.tasks
             const [remove] = coppiesItemSource.splice(source.index, 1)
             coppieitem.splice(destination.index, 0, remove)
+            const sourceTask = coppiesItemSource.map(item => item.tid)
+            const DesTask = coppieitem.map(item => item.tid)
+
             updateDocument('process', source.droppableId, {
-                tasks: [...coppiesItemSource]
+                tasks: [...sourceTask]
             })
             updateDocument('process', destination.droppableId, {
-                tasks: [...coppieitem]
+                tasks: [...DesTask]
             })
 
             updateDocument('tasks', remove.id, {
@@ -46,12 +49,9 @@ export default function ProjectMainBoard() {
             const coppiesItem = column.tasks
             const [remove] = coppiesItem.splice(source.index, 1)
             coppiesItem.splice(destination.index, 0, remove)
-            setProjects({
-                ...projects,
-                [source.droppableId]: {
-                    ...column,
-                    tasks: coppiesItem
-                }
+            const sourceTask = coppiesItem.map(item => item.tid)
+            updateDocument('process', source.droppableId, {
+                tasks: [...sourceTask]
             })
         }
     }

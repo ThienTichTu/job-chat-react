@@ -5,20 +5,24 @@ import InputEmoji from 'react-input-emoji'
 import { message } from "antd"
 import { RoomChatContext } from "../../../context/RoomChatProvider"
 import { AuthContext } from "../../../context/AuthProvider"
-import { updateDocument, getTime } from "../../../firebase/services"
+import { updateDocument, getTime, FieldValue } from "../../../firebase/services"
 import firebase, { storage } from '../../../firebase/config'
 import { ref, getDownloadURL, uploadBytesResumable } from "@firebase/storage"
 const key = 'updatable';
+const customName = (name) => {
+    const name1 = name.split('.')[0];
+    const name2 = name.split('.')[1];
+    return `${name1}${Math.floor(Math.random() * 3)}.${name2}`
 
+}
 export default function Footer() {
-    const { roomId } = useContext(RoomChatContext)
+    const { selectedRoom: { id }, roomId } = useContext(RoomChatContext)
     const { userCurrent: { uid } } = useContext(AuthContext)
 
     const inputRef = useRef()
 
     const [text, setText] = useState('')
-
-    const [getUrlErr, setGetUrlErr] = useState("");
+    const [fileSend, setFileSend] = useState({})
 
     const [img, setImg] = useState()
 
@@ -36,25 +40,7 @@ export default function Footer() {
 
 
     const updateDataChat = () => {
-        if (img) {
-            message.loading({ content: 'Đang tải ảnh...', key });
-
-            const nameIMG = Math.floor(Math.random() * 100000000000000);
-
-            const storageRef = ref(storage, `chat/${nameIMG}`);
-
-            const uploadTask = uploadBytesResumable(storageRef, img);
-
-            uploadTask.on('state_changed',
-                (snapshot) => { },
-                (error) => { setGetUrlErr(`chat/${nameIMG}`) },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        setGetUrlErr(`chat/${nameIMG}`)
-                    });
-                }
-            );
-        } else {
+        if (text !== "") {
             const dataChat = {
                 type: 'text',
                 idSend: uid,
@@ -68,36 +54,7 @@ export default function Footer() {
 
     }
 
-    useEffect(() => {
-        if (getUrlErr !== "") {
-            const text1 = text
-            const storageRef = ref(storage, getUrlErr);
 
-            getDownloadURL(storageRef).then((downloadURL) => {
-                const dataChat = {
-                    type: 'img',
-                    idSend: uid,
-                    content: text1,
-                    img: downloadURL,
-                    time: getTime()
-                }
-                updateDocument('rooms', roomId, {
-                    data: firebase.firestore.FieldValue.arrayUnion(dataChat)
-                })
-                message.success({ content: 'Đã tải ảnh xong !', key, duration: 2 });
-                if (img) {
-
-                    img.preview && URL.revokeObjectURL(img.preview)
-                    setImg(null)
-
-                }
-                setText("")
-            });
-        }
-        return () => {
-            setGetUrlErr("")
-        }
-    }, [getUrlErr])
 
 
 
@@ -116,28 +73,62 @@ export default function Footer() {
 
 
     const handleSetImg = (e) => {
-        if (e.target.files[0]) {
-            const file = e.target.files[0]
-            const a = URL.createObjectURL(e.target.files[0])
-            file.preview = a
-            setImg(file)
+        message.loading({ content: 'Đang gửi file...', key });
+        const file = e.target.files[0]
+        const typefile = file.type.split('/')[0]
+        const data = {
+            type: 'file',
+            typeofFile: typefile,
+            name: file.name,
+            ref: `chat/${customName(file.name)}`,
+            url: ""
         }
+        console.log(data)
+        const storageRef = ref(storage, data.ref);
+
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on('state_changed',
+            (snapshot) => { },
+            (error) => { setFileSend(data) },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setFileSend(data)
+                });
+            }
+        );
     }
+
+    useEffect(() => {
+        if (fileSend?.ref) {
+            const storageRef = ref(storage, fileSend.ref);
+            getDownloadURL(storageRef).then((downloadURL) => {
+                const data1 = {
+                    type: 'file',
+                    idSend: uid,
+                    time: getTime(),
+                    fileOfType: fileSend.typeofFile,
+                    content: {
+                        name: fileSend.name,
+                        ref: fileSend.ref,
+                        url: downloadURL
+                    },
+                }
+                updateDocument('rooms', id, {
+                    data: FieldValue.arrayUnion(data1)
+                })
+                message.success({ content: 'Gửi thành công!', key, duration: 2 });
+            });
+        }
+    }, [fileSend])
+
 
 
 
     return (
         <>
             <div className="footer__input-header" >
-                {
-                    img && <div className="previewimg">
-                        <CloseOutlined
-                            style={{ position: 'absolute', right: "5px", top: "5px", color: "#fff", cursor: 'pointer' }}
-                            onClick={() => setImg(null)}
-                        />
-                        <img src={img.preview} alt="" />
-                    </div>
-                }
+
                 <div className="header-icon">
                     <FileAddFilled />
                 </div>

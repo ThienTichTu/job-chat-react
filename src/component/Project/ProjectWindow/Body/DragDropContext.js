@@ -106,7 +106,7 @@ export default function DragDropContextDashboard({ handlePropEnd, projects, setP
                                                     data.tasks.map((item, index) => {
 
                                                         return (
-                                                            <Draggable key={item.tid} index={index} draggableId={item.tid}>
+                                                            <Draggable key={item?.tid && item.tid} index={index} draggableId={item?.tid && item.tid}>
                                                                 {(provided, snapshot) => {
                                                                     return (
                                                                         <div

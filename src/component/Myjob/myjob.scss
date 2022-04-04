@@ -1,0 +1,5 @@
+@use "../../scss/" as *;
+.myjob-projectIcon{
+    @include hoverRotate2();
+    border: 1px solid #fff;
+}
