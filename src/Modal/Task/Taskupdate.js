@@ -30,6 +30,7 @@ export default function Taskupdate() {
     const [maker, setMaker] = useState([])
 
     useEffect(() => {
+
         setMaker(task.maker)
         setData(task)
         setFile(task.filedata)
@@ -136,7 +137,8 @@ export default function Taskupdate() {
         data.dealine = b
         data.maker = a
         data.checklistArray = checklist
-        updateDocument('tasks', data.id, data)
+        console.log(data)
+        // updateDocument('tasks', data.id, data)
         message.success("Cập nhật thành công...")
     }
 
@@ -177,7 +179,6 @@ export default function Taskupdate() {
                     {
                         maker &&
                         maker.map((item, index) =>
-
                             <div key={index} className="avatar-item">
                                 <Avatar src={item.photoURL} size={40}>
                                     {item.photoURL ? '' : item.displayName?.charAt(0)?.toUpperCase()}

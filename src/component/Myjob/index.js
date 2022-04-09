@@ -5,17 +5,19 @@ import { OrderedListOutlined } from '@ant-design/icons';
 import { ProjectContext } from "../../context/ProjectProvider"
 import { RoomChatContext } from "../../context/RoomChatProvider"
 import { VisibleContext } from "../../context/VisibleProvider"
+import JobItem from "./JobItem"
 import _ from "lodash";
+import CheckableTag from 'antd/lib/tag/CheckableTag';
 const { SubMenu } = Menu;
 export default function Myjob() {
-    const { projects, TasksAll, memberProjects, setTask } = useContext(ProjectContext)
+    const { projects, TasksAll, memberProjects, setTask, setProjectId } = useContext(ProjectContext)
     const { roomListTask, setRoomId } = useContext(RoomChatContext)
     const { setIsTasKUpdate } = useContext(VisibleContext)
-
+    const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [defaultOpen, setDefault] = useState([])
     const handleClick = e => {
-        console.log('click ', e);
+
     };
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem('theme') || 'light'
@@ -32,27 +34,32 @@ export default function Myjob() {
     }
 
     const handleCallTask = (data) => {
-        const { id } = _.find(roomListTask, (item) => item.taskid === data.tid)
-        setRoomId(id)
-        setTask(data)
-        setIsTasKUpdate(true)
+        setProjectId(data.project)
+        setData(data)
     }
+    useEffect(() => {
+        if (data) {
+            const { id } = _.find(roomListTask, (item) => item.taskid === data.tid)
+            const newData = { ...data }
+            const maker1 = data.maker.map((user) => _.find(memberProjects, o => o.uid === user))
+            newData.maker = maker1
+            setRoomId(id)
+            setTask(newData)
+            setIsTasKUpdate(true)
+        }
+        return () => {
+            setData(false)
+        }
+    }, [memberProjects, data])
 
     useEffect(() => {
+
         const data = projects.map((project, index) => {
             const newtasks = TasksAll.filter((task) => task.project === project.id)
-            const maker = newtasks.map((task) => {
-                const a = task.maker.map(i => {
-                    return _.find(memberProjects, o => o.uid === i)
-                })
-                return {
-                    ...task,
-                    maker: a
-                }
-            })
+
             return {
                 ...project,
-                tasks: maker,
+                tasks: newtasks,
                 key: `sub${index}`
             }
         })
@@ -75,7 +82,6 @@ export default function Myjob() {
                 onClick={handleClick}
                 style={{ width: "100%", fontSize: "20px" }}
                 defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub0', 'sub1', 'sub2', 'sub3']}
                 mode="inline"
                 theme={theme}
             >
@@ -84,14 +90,16 @@ export default function Myjob() {
 
                         <SubMenu key={item.key} icon={<Avatar src={item.background}
                             className="myjob-projectIcon" size={30} >T</Avatar>}
-                            title={item.name}>
+                            title={item.name}
+                        >
 
                             {
                                 item.tasks.map((data) =>
                                     <Menu.Item danger={data.dealine.length !== 0 && data.dealine[0] !== ''} key={data.id}>
-                                        <span onClick={() => handleCallTask(data)}>
-                                            {data.name}
-                                        </span>
+                                        <JobItem
+                                            data={data}
+                                            handleCallTask={handleCallTask}
+                                        />
                                     </Menu.Item>
                                 )
                             }

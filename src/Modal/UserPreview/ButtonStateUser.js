@@ -49,11 +49,19 @@ export default function ButtonStateUser({ checkUser, setCheckUser, idUser, listF
             {
                 checkUser === 'Ban be'
                     ?
-                    <Button
-                        type="primary"
-                    >Bạn Bè
-                    </Button>
+                    <div style={{ textAlign: 'center' }}>
+                        <Button
+                            type="primary"
+                        >Bạn Bè
+                        </Button>
 
+                        <Button
+                            type="primary"
+                            style={{ marginTop: "10px", }}
+
+                        >Hủy kết bạn
+                        </Button>
+                    </div>
                     :
                     checkUser === 'Dong y'
                         ?

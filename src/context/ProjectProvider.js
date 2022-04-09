@@ -37,7 +37,6 @@ export default function ProjectProvider({ children }) {
             compareValue: value,
         };
     }, [selectedProject, projectId])
-
     const ProcessCondition = useMemo(() => {
         const value = selectedProject?.process ? selectedProject.process : []
         return {

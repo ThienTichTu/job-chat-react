@@ -4,11 +4,14 @@ import { auth } from "../../firebase/config"
 import { LogoutOutlined } from "@ant-design/icons"
 import { AuthContext } from '../../context/AuthProvider';
 import { VisibleContext } from '../../context/VisibleProvider'
+
 export default function UserNav() {
 
     const { userCurrent: { displayName, email, photoURL } } = useContext(AuthContext)
 
     const { setIsProfileVisible } = useContext(VisibleContext)
+
+
 
     const menu = (
         <Menu>

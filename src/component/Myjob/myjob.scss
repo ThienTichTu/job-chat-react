@@ -3,3 +3,15 @@
     @include hoverRotate2();
     border: 1px solid #fff;
 }
+.jobitem{
+    width: 100%;
+    @include flex(start, center);
+    &-name{
+        font-size: 18px;
+        font-weight: 600;
+        width:  300px;
+    }
+    &-time{
+        margin-left: auto;
+    }
+}

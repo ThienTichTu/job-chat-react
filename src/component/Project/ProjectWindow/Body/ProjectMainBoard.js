@@ -5,12 +5,13 @@ import { v4 } from "uuid";
 import DragDropContextDashboard from "./DragDropContext"
 import { ProjectContext } from "../../../../context/ProjectProvider"
 import { updateDocument, FieldValue } from '../../../../firebase/services';
-
+import UpdateProject from "../Header/UpdateProject"
 export default function ProjectMainBoard() {
     const [addprocessVisible, setAddprocessVisible] = useState(false)
     const { processOBJ, selectedProject } = useContext(ProjectContext)
     const [projectData, setProjectData] = useState({})
     const [projectCurent, setProjectCurent] = useState({})
+
     useEffect(() => {
         setProjectData(processOBJ)
         setProjectCurent(selectedProject)
@@ -77,6 +78,7 @@ export default function ProjectMainBoard() {
                 addprocessVisible={addprocessVisible}
                 setAddprocessVisible={setAddprocessVisible}
             />
+
         </div>
     )
 }

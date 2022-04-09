@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from 'react'
 import { Avatar, Tooltip } from "antd"
 import { UsergroupAddOutlined, SettingOutlined } from "@ant-design/icons"
 import { RoomChatContext } from '../../../context/RoomChatProvider'
-import { MemberContext } from '../../../context/MemberProvider'
 import { AuthContext } from "../../../context/AuthProvider"
 import { VisibleContext } from "../../../context/VisibleProvider"
 import _ from "lodash"

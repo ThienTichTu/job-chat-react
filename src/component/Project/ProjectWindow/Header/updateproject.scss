@@ -1,0 +1,93 @@
+@use "../../../../scss/" as *;
+
+.update__project{
+    width: 100%;
+    height: 100%;
+    &-infor{
+        width: 100%;
+        min-height: 50px;
+        max-height: 150px;
+        input{
+            border: 1px solid $border-color;
+            width: 100%;
+            height: 50px;
+            padding-left: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            outline: none;
+        }
+        textarea{
+            border: 1px solid $border-color;
+            width: 100%;
+            height: 100px;
+            padding-left: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            outline: none;
+        }
+    }
+    .update__project-member{
+        min-height: 100px;
+        width: 100%;
+        margin-top: 10px;
+        .projectmember{
+            width: 100%;
+            &__header{
+                display: block;
+                margin-top: 10px;
+                width: 100%;
+                height: 50px;
+                font-size:18px;
+
+            }
+            &__list{
+                height: 50px;
+                width: 100%;
+                @include flex(start, center);
+                padding: 5px;
+                &-add{
+                 width: 40px;
+                 height: 40px;
+                 border-radius: 50%;
+                border: 1px dashed $border-color;
+                @include flex-col(center, center);
+                font-size: 20px;
+                    @include hoverRotate();
+                }
+                cursor: pointer;
+            }
+            &__listchoose{
+                width: 100%;
+                height: 100px;
+                margin-top: 10px;
+                @include flex-col(start, start);
+                border-top: 1px solid $border-color;
+                padding: 5px;
+                .listchoose-item{
+                  width: 600px;
+                    height: 50px;
+                    @include flex(space-between, center);
+                    span{
+                        font-size: 18px;
+                    }
+                    .listchoose-item-role{
+                        font-weight: 300;
+                        margin-left: 10px;
+                        font-style: italic;
+                    
+                    }
+                }
+            }
+        }
+        
+    }
+}
+.update__project-infor + .update__project-infor{
+    margin-top: 10px;
+}
+.projectmember__list-item + .projectmember__list-item{
+    margin-left: 10px;
+}
+.listchoose-item + .listchoose-item{
+    margin-top: 10px;
+}
