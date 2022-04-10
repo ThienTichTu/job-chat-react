@@ -136,9 +136,10 @@ export default function Taskupdate() {
         data.filedata = file
         data.dealine = b
         data.maker = a
-        data.checklistArray = checklist
-        console.log(data)
-        // updateDocument('tasks', data.id, data)
+        updateDocument('tasks', data.id, {
+            ...data,
+            checklistArray: checklist
+        })
         message.success("Cập nhật thành công...")
     }
 
@@ -181,7 +182,7 @@ export default function Taskupdate() {
                         maker.map((item, index) =>
                             <div key={index} className="avatar-item">
                                 <Avatar src={item.photoURL} size={40}>
-                                    {item.photoURL ? '' : item.displayName?.charAt(0)?.toUpperCase()}
+                                    {item?.photoURL ? '' : item.displayName?.charAt(0)?.toUpperCase()}
                                 </Avatar>
                             </div>
                         )

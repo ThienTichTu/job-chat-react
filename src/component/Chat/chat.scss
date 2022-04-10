@@ -221,7 +221,7 @@
     &:hover {
         .item {
             color: $btn-color;
-            transform: rotate(360deg);
+            @include hoverRotate2(1s);
         }
         background-color: #fff;
     }

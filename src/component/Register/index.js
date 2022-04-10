@@ -70,10 +70,8 @@ export default function Register() {
     return (
         <div className="login">
             <div className="login__container">
-                <div className="login-logo"
-                    style={{ height: "125px", width: "300px" }}
-                >
-                    <img src="../../../../../../metajob.png" alt="" />
+                <div className="login-logo">
+                    <img src="../../../../../../metajob-logo.png" alt="" />
                 </div>
 
                 <div className="login__form">
@@ -99,7 +97,7 @@ export default function Register() {
                             Mật khẩu:
                         </span>
                         <input
-                            type="text"
+                            type="password"
                             value={password}
                             onChange={(e) => {
                                 setPassword(e.target.value)
@@ -151,6 +149,14 @@ export default function Register() {
 
                 </div>
             </div>
+            <img
+                className="login__backgound" src="../../../../../../left-bg.png" alt=""
+                style={{ left: "0", bottom: "0" }}
+            />
+            <img className="login__backgound" src="../../../../../../right-bg.png" alt=""
+                style={{ right: "0", bottom: "0" }}
+
+            />
         </div>
     )
 }

@@ -55,7 +55,7 @@ export default function LoginFormCustom() {
                     Password:
                 </span>
                 <input
-                    type="text"
+                    type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />

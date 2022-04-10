@@ -89,16 +89,11 @@ function Header() {
 
 
             <div
-                style={{ width: "200px", marginLeft: "auto", display: "flex", justifyContent: "center" }}
+                style={{ width: "120px", marginLeft: "auto", display: "flex", justifyContent: "center" }}
             >
                 <div className="main__header-item"
                 >
                     <UserAddNotification />
-                </div>
-                <div className="main__header-item"
-                    style={{ marginLeft: "auto " }}
-                >
-                    <BellOutlined />
                 </div>
 
                 <UserNav />

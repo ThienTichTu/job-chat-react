@@ -19,7 +19,7 @@ export default function UpdateProject({ updateProjectVisible, setUpdateProjectVi
 
     const [name, setName] = useState("")
     const [des, setDescription] = useState("")
-    const [friend, setFriend] = useState([])
+    const [isAddMember, setIsAddMember] = useState(false)
     const onClose = () => {
         setUpdateProjectVisible(false)
     }
@@ -99,7 +99,6 @@ export default function UpdateProject({ updateProjectVisible, setUpdateProjectVi
                 name,
                 description: des
             }
-            console.log(data)
             updateDocument('projects', selectedProject.id, data)
             setUpdateProjectVisible(false)
 
@@ -158,49 +157,57 @@ export default function UpdateProject({ updateProjectVisible, setUpdateProjectVi
 
                         <div className="projectmember__list-item">
                             <div className="projectmember__list-add">
-                                <span><PlusOutlined /></span>
+                                <span><PlusOutlined
+                                    onClick={() => setIsAddMember(!isAddMember)}
+                                /></span>
                             </div>
                         </div>
                     </div>
-                    <div className="projectmember__listchoose">
-                        {
-                            member.map((item, index) =>
-                                <div key={index} className="listchoose-item">
-                                    <div>
-                                        <Avatar src={item.photoURL} size={40}
-                                            style={{ marginRight: '10px' }}
-                                        >T</Avatar>
-                                        <span>{item.displayName}</span>
+                    {
+                        isAddMember &&
+                        <div className="projectmember__listchoose">
+                            {
+                                member.map((item, index) =>
+                                    <div key={index} className="listchoose-item">
+                                        <div>
+                                            <Avatar src={item.photoURL} size={40}
+                                                style={{ marginRight: '10px' }}
+                                            >
+                                                {item?.photoURL ? '' : item.displayName?.charAt(0)?.toUpperCase()}
+                                            </Avatar>
+                                            <span>{item.displayName}</span>
+
+                                        </div>
+                                        {
+                                            item.role !== "unmember"
+                                                ? <>
+                                                    <span className="listchoose-item-role">Đang thực hiện</span>
+                                                    <Select
+                                                        defaultValue={`${item.uid} ${item.role} ${index}`}
+                                                        style={{ minWidth: 170, fontSize: "18px" }}
+                                                        onChange={handleSelectMember}
+                                                        disabled={item.id === id}
+                                                    >
+                                                        <Option value={`${item.uid} member ${index}`}>Thành viên</Option>
+                                                        <Option value={`${item.uid} admin ${index}`}>Quản trị viên</Option>
+
+                                                    </Select>
+                                                </>
+                                                : <PlusOutlined
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={() => handleAddMember(item, index)}
+                                                />
+                                        }
+
 
                                     </div>
-                                    {
-                                        item.role !== "unmember"
-                                            ? <>
-                                                <span className="listchoose-item-role">Đang thực hiện</span>
-                                                <Select
-                                                    defaultValue={`${item.uid} ${item.role} ${index}`}
-                                                    style={{ minWidth: 170, fontSize: "18px" }}
-                                                    onChange={handleSelectMember}
-                                                    disabled={item.id === id}
-                                                >
-                                                    <Option value={`${item.uid} member ${index}`}>Thành viên</Option>
-                                                    <Option value={`${item.uid} admin ${index}`}>Quản trị viên</Option>
-
-                                                </Select>
-                                            </>
-                                            : <PlusOutlined
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => handleAddMember(item, index)}
-                                            />
-                                    }
+                                )
+                            }
 
 
-                                </div>
-                            )
-                        }
+                        </div>
 
-
-                    </div>
+                    }
 
                 </div>
             </div>

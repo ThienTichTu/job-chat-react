@@ -55,12 +55,7 @@ export default function ButtonStateUser({ checkUser, setCheckUser, idUser, listF
                         >Bạn Bè
                         </Button>
 
-                        <Button
-                            type="primary"
-                            style={{ marginTop: "10px", }}
 
-                        >Hủy kết bạn
-                        </Button>
                     </div>
                     :
                     checkUser === 'Dong y'
