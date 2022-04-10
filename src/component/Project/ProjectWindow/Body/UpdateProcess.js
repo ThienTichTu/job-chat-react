@@ -35,6 +35,7 @@ function UpdateProcess({ updateProcessVisible, setUpdateProcessVisible, data }) 
             placement="bottom"
             onClose={onClose}
             visible={updateProcessVisible}
+            height={500}
             extra={
                 <Space align="start">
                     <Button type="primary" onClick={handleOnclick}>

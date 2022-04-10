@@ -13,6 +13,9 @@ html {
 ::-webkit-scrollbar {
     width: 5px;
 }
+body{
+    overflow-x: hidden;
+}
 
 /* Track */
 ::-webkit-scrollbar-track {

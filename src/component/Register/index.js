@@ -68,13 +68,14 @@ export default function Register() {
 
 
     return (
-        <div className="login">
-            <div className="login__container">
-                <div className="login-logo">
+        <div className="login" style={{height: '100vh'}}>
+             <div className="login-logo" style={{width: '400px'}}>
                     <img src="../../../../../../metajob-logo.png" alt="" />
                 </div>
+            <div className="login__container">
+               
 
-                <div className="login__form">
+                <div className="login__form" style={{height: "450px"}}>
                     <h1 className="border-bot w-100 text-center p-bot-20">Đăng kí</h1>
                     <div className="signin__form-input">
                         <span>
@@ -127,14 +128,14 @@ export default function Register() {
                     <div className="login__form-link"
                         style={{
                             marginTop: " 10px",
-                            width: "80%"
+                            width: "90%"
                         }}
                     >
                         <Link to="/login">
                             <button className="btn-green"
                                 style={{ width: "100%" }}
                             >
-                                Quay lại đăng nhập
+                                Quay lại
                             </button>
                         </Link>
 
@@ -151,10 +152,10 @@ export default function Register() {
             </div>
             <img
                 className="login__backgound" src="../../../../../../left-bg.png" alt=""
-                style={{ left: "0", bottom: "0" }}
+                style={{ left: "0", bottom: "0",width:"200px" }}
             />
             <img className="login__backgound" src="../../../../../../right-bg.png" alt=""
-                style={{ right: "0", bottom: "0" }}
+                style={{ right: "0", bottom: "0",width:"200px" }}
 
             />
         </div>

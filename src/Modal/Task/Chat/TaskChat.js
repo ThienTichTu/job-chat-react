@@ -28,7 +28,7 @@ export default function TaskChat({ taskchatVisible }) {
         <Drawer
             title="Tin nhắn công việc"
             placement="top"
-            height={700}
+            height={500}
             onClose={onClose}
             visible={isTasKChat}
             extra={

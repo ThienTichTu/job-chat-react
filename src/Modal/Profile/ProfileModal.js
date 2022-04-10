@@ -115,7 +115,7 @@ export default function ProfileModal() {
                 visible={isProfileVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
-                width={800}
+                width={700}
                 footer={[
                     <Button key="back" type="primary" onClick={handleOk}>
                         Cập nhật

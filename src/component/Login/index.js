@@ -5,10 +5,11 @@ import LoginFormCustom from "./LoginFormCustom"
 export default function Login() {
     return (
         <div className="login">
-            <div className="login__container">
-                <div className="login-logo">
+            <div className="login-logo">
                     <img src="../../../../../../metajob-logo.png" alt="" />
                 </div>
+            <div className="login__container">
+                
 
                 <div className="login__form">
                     <h1>Đăng nhập</h1>
@@ -22,10 +23,10 @@ export default function Login() {
             </div>
             <img
                 className="login__backgound" src="../../../../../../left-bg.png" alt=""
-                style={{ left: "0", bottom: "0" }}
+                style={{ left: "0", bottom: "0",width:'200px' }}
             />
             <img className="login__backgound" src="../../../../../../right-bg.png" alt=""
-                style={{ right: "0", bottom: "0" }}
+                style={{ right: "0", bottom: "0",width:'200px' }}
 
             />
         </div>
